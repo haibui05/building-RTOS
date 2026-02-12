@@ -1,0 +1,72 @@
+
+Truyền không đồng bộ (asynchronous) là phương thức trong đó mỗi thiết bị sử dụng clock nội riêng, không có tín hiệu clock chung trên đường truyền. Hai bên phải thống nhất trước tốc độ baud và dữ liệu được đồng bộ bằng start bit và stop bit.
+
+Truyền đồng bộ (synchronous) là phương thức trong đó tín hiệu clock được truyền đồng thời với dữ liệu trên đường truyền, cho phép bên nhận lấy mẫu dữ liệu theo các cạnh clock.
+
+Hay asynchronous sẽ đồng bộ bằng thời gian, synchronous sẽ đồng bộ bằng xung clock vật lý.
+
+UART:
+
+1. Data frame - Khung truyền dữ liệu
+- Là một gói bit hoàn chỉnh dùng để truyền một đơn vị dữ liệu (thường là 1 byte) trên đường truyền nối tiếp.
+VD: Thay vì gửi thô 10101010, hệ thống sẽ gửi:
+	+ Khi nào dữ liệu bắt đầu
+	+ Dữ liệu dài bao nhiêu bit
+	+ Có lỗi hay không
+	+ Khi nào kết thúc
+2. Cấu trúc của một data frame
+
+Thông thường sẽ có dạng như sau:
+
+| Start | D0 | D1 | D2 | D3 | D4 | D5 | D6 | D7 | Parity | Stop |
+
+Start Bit: +) luôn là 0 thường dùng để báo cho bên nhận sắp có dữ liệu
+		   +) đồng bộ thời gian lấy mẫu (sampling)
+		   +) khi start tụt xuống 0 => phát hiện start và bắt đầu gửi dữ liệu.
+
+Data Bit: truyền theo thứ tự LSB (các bit thấp trước)
+
+Parity Bit: phát hiện lỗi đơn giản (check lỗi bằng chẵn, lẻ hoặc không)
+
+Stop Bit: kéo lên 1 để kết thúc frame
+
+NOTE:
+
+Bit Rate (bps - bit per second): số bit dữ liệu truyền trong một giây
+
+Baurd Rate (baud - symbol per second): số ký hiệu tín hiệu (symbol) truyền trong một giây
+
+VD: UART chỉ có mức điện áp 0V và 3,3V nên 1 symbol = 1 bit nên trong UART thì tốc độ baud = tốc độ bit.
+
+Dễ hiểu hơn thì baud rate đo tốc độ thay đổi tín hiệu còn bit rate đo tốc độ truyền tín hiệu.
+		   
+USART - Register:
+
+1. Configure Baudrate theo công thức:
+	( (system clock + (baud / 2U)) / baud )
+2. Configure USART_CR1
+	như Start Bit, Data Bits, Parity, bật TX và RX, ...
+
+3. Configure Stop Bits at USART_CR2
+
+4. Enable USART in USART_CR1
+
+Kỹ thuật: ring buffer (nâng cấp thì dùng queue), packet uart 
+
+
+NOTE:
+
+1. TX
+- Thực chất USART không truyền "ký tự" hay "số", mà nó truyền: điện áp cao/ thấp theo thời gian:
+
+2. RX
+- RX dùng "timer nội" để canh thời gian lấy mẫu điện áp đúng giữa mỗi bit.
+
+- Không có clock dây chỉ dựa vào:
+	+ phát hiện cạnh xuống của start bit
+	+ sau đó chia thời gian đều ra để sample
+
+- RX sẽ thấy điện áp 1->0 => à đây là start bit
+- Bắt đầu đếm thời gian
+- Cứ mỗi T/2 sample một lần: nếu >2V là bit 1 còn nhỏ hơn 1V là bit 0 chẳng hạn.
+- Ghép các bit lấy mẫu thành byte trong thanh ghi.
