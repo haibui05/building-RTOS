@@ -8,7 +8,7 @@
 #ifndef __STM32F1xx_TIM_H
 #define __STM32F1xx_TIM_H
 
-#include "main.h"
+#include "stm32f1xx_system.h"
 
 #define TIM2_BASE 		(0x40000000U)
 #define TIM2_CR1   		(*(volatile uint32_t *)(TIM2_BASE + 0x00U))

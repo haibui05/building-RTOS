@@ -1,9 +1,7 @@
 #ifndef __LED_H
 #define __LED_H
 
-#include "main.h"
-#include "stm32f1xx_gpio.h"
-#include "stm32f1xx_rcc.h"
+#include "stm32f1xx_system.h"
 
 void led_init(void);
 void led_on(void);

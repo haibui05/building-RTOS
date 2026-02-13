@@ -7,10 +7,6 @@
 
 #include "stm32f1xx_systick.h"
 
-#define SYSTICK_BASE 0xE000E010U
-
-#define SYS_TIMER_LOAD (SYSTEM_CORE_CLOCK / 1000u)
-
 static volatile uint32_t g_current_tick;
 static volatile uint32_t current_tick;
 static volatile uint32_t tick_freq = 1;
@@ -49,7 +45,7 @@ extern void delay_ms(uint32_t delay)
 	while ((get_tick() - tick_start) < wait);
 }
 
-void SysTick_Handler(void)
+__attribute__((weak)) void SysTick_Handler(void)
 {
 	g_current_tick += tick_freq;
 }

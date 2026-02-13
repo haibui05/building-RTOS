@@ -8,8 +8,7 @@
 #ifndef __STM32F1xx_RCC_H
 #define __STM32F1xx_RCC_H
 
-#include "main.h"
-
+#include "stm32f1xx_system.h"
 
 typedef enum
 {

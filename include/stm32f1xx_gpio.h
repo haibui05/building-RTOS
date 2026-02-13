@@ -8,7 +8,7 @@
 #ifndef __STM32F1xx__GPIO_H
 #define __STM32F1xx__GPIO_H
 
-#include "main.h"
+#include "stm32f1xx_system.h"
 
 #define GPIO_PIN_0   	   	((uint16_t)0x0001)  
 #define GPIO_PIN_1   	   	((uint16_t)0x0002)  
@@ -65,8 +65,8 @@ typedef enum
 #define GPIOB ( (GPIO_TypeDef *)GPIOB_BASE )
 #define GPIOC ( (GPIO_TypeDef *)GPIOC_BASE )
 
-void gpio_init(GPIO_TypeDef *GPIOx, UINT16 pin, GPIOMode_Type mode, GPIOSpeed_Type speed);
-void gpio_write_pin(GPIO_TypeDef *GPIOx, UINT16 pin, BitAction bit_state);
-uint8_t gpio_read_pin(GPIO_TypeDef *GPIOx, UINT16 pin);
+void gpio_init(GPIO_TypeDef *GPIOx, uint16_t pin, GPIOMode_Type mode, GPIOSpeed_Type speed);
+void gpio_write_pin(GPIO_TypeDef *GPIOx, uint16_t pin, BitAction bit_state);
+uint8_t gpio_read_pin(GPIO_TypeDef *GPIOx, uint16_t pin);
 
 #endif // __STM32F1xx__GPIO_H

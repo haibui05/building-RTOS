@@ -7,7 +7,11 @@
 #ifndef __STM32F1xx_SYSTICK_H
 #define __STM32F1xx_SYSTICK_H
 
-#include "main.h"
+#include "stm32f1xx_system.h"
+
+#define SYSTICK_BASE 0xE000E010U
+
+#define SYS_TIMER_LOAD (SYSTEM_CORE_CLOCK / 1000u)
 
 extern void systick_init(void);
 extern uint32_t get_tick(void);

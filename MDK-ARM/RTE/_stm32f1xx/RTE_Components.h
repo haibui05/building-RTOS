@@ -3,8 +3,8 @@
  * Auto generated Run-Time-Environment Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'stm32f10x_register' 
- * Target:  'RTOS' 
+ * Project: 'real_time_os' 
+ * Target:  'stm32f1xx' 
  */
 
 #ifndef RTE_COMPONENTS_H

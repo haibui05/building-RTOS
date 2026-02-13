@@ -3,7 +3,7 @@
  * Auto generated Run-Time-Environment Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'stm32f10x_register' 
+ * Project: 'real_time_os' 
  * Target:  'Target 1' 
  */
 

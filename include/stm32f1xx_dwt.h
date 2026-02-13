@@ -7,7 +7,7 @@
 #ifndef __STM32F1xx_DWT_H
 #define __STM32F1xx_DWT_H
 
-#include "main.h"
+#include "stm32f1xx_system.h"
 
 #define DWT_DEMCR   (*(volatile uint32_t*)0xE000EDFC)
 #define DWT_CTRL   (*(volatile uint32_t*)0xE0001000)
