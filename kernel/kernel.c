@@ -1,25 +1,25 @@
 #include "kernel.h"
 #include "stm32f1xx_interrupt.h"
 
-#define NUMBER_THREADS 3
-#define STACK_SIZE 100 /* 100 word */
-#define BUS_FREQUENCY (72000000U)
 
 static uint32_t millis_prescaler = 0;
-
-struct TCB {
-	uint32_t *stackPointer;
-	struct TCB *nextStackPointer;
-};
-
-typedef struct TCB TCB_t;
 
 TCB_t *currentPointer;
 
 TCB_t TCBs[NUMBER_THREADS];
 
 /*** Stack 100 i.e 400 bytes***/
-uint32_t TCB_Stack[NUMBER_THREADS][STACK_SIZE];
+static uint32_t TCB_Stack[NUMBER_THREADS][STACK_SIZE];
+
+void rtos_kernel_release(void)
+{
+  /* clear systick current value register */
+  volatile uint32_t *pSYST_CVR = (volatile uint32_t *)(0xE000E018);
+  *pSYST_CVR = 0;
+  
+  /* trigger systick */
+  SCB->ICSR = (1U << 26); /* set pending */
+}
 
 void rtos_kernel_stack_init(int thread_number)
 {

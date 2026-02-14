@@ -9,7 +9,7 @@
 #include "led.h"
 #include "kernel.h"
 
-uint32_t task0_runner, task1_runner, task2_runner;
+static volatile uint32_t task0_runner, task1_runner, task2_runner;
 
 void task0(void);
 void task1(void);
@@ -18,16 +18,22 @@ void task2(void);
 void light_on(void);
 void light_off(void);
 
+static void set_up_hardware(void)
+{
+	usart1_init(115200);
+	led_init();
+}
+
 int main(void)
 {
-	// systick_init();
+	set_up_hardware();
 
-	usart1_init(115200);
+	/***os kernel***/
 	rtos_kernel_init();
 	rtos_kernel_stack_add_threads(&task0, &task1, &task2);
 	rtos_kernel_launch(10); /* set round-robin time to 10ms */
 
-	while (1) 
+	while (1)
 	{
 		/* should never be here */
 	}
@@ -48,7 +54,8 @@ void task0(void)
 	for (;;)
 	{
 		task0_runner++;
-		light_on();
+		// light_on();
+		rtos_kernel_release();
 	}
 }
 
@@ -57,7 +64,7 @@ void task1(void)
 	for (;;)
 	{
 		task1_runner++;
-		light_off();
+		// light_off();
 	}
 }
 
