@@ -9,11 +9,12 @@
 #include "led.h"
 #include "kernel.h"
 
-static volatile uint32_t task0_runner, task1_runner, task2_runner;
+static volatile uint32_t coopertive_task0_runner, task1_runner, task2_runner, periodic_task3_runner;
 
 void task0(void);
 void task1(void);
 void task2(void);
+void task3(void);
 
 void light_on(void);
 void light_off(void);
@@ -21,6 +22,7 @@ void light_off(void);
 static void set_up_hardware(void)
 {
 	usart1_init(115200);
+	tim2_init();
 	led_init();
 }
 
@@ -53,7 +55,7 @@ void task0(void)
 {
 	for (;;)
 	{
-		task0_runner++;
+		coopertive_task0_runner++;
 		// light_on();
 		rtos_kernel_release();
 	}
@@ -74,4 +76,9 @@ void task2(void)
 	{
 		task2_runner++;
 	}
+}
+
+void task3(void)
+{
+  periodic_task3_runner++;
 }

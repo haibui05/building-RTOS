@@ -48,6 +48,8 @@ extern void rtos_kernel_scheduler_launch(void);
  * @brief Launch RTOS with quanta time (ms)
  */
 extern void rtos_kernel_launch(uint32_t quanta);
+extern void task3(void);
+extern void rtos_scheduler_round_robin(void);
 
 void osKernelInit(void);
 void osKernelAddThreads(void (*task0)(void), void (*task1)(void), void (*task2)(void));

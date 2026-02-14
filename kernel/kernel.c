@@ -10,6 +10,17 @@ TCB_t TCBs[NUMBER_THREADS];
 
 /*** Stack 100 i.e 400 bytes***/
 static uint32_t TCB_Stack[NUMBER_THREADS][STACK_SIZE];
+static uint32_t periodic_tick;
+
+void rtos_scheduler_round_robin(void)
+{
+  if ((++periodic_tick) == 100)
+  {
+    (*task3)();
+    periodic_tick = 0;
+  }
+  currentPointer = currentPointer->nextStackPointer;
+}
 
 void rtos_kernel_release(void)
 {
@@ -159,7 +170,17 @@ __attribute__((naked)) void SysTick_Handler(void)
    * 2. choose next thread 
    */
   /* load r1 from a location 4 bytes above address r1, i.e r1 = current->nextStackPointer */
-  __asm("LDR R1,[R1,#4]");
+  // __asm("LDR R1,[R1,#4]");
+  
+  __asm("PUSH {R0, LR}");
+  __asm("BL rtos_scheduler_round_robin");
+  __asm("POP {R0, LR}");
+  
+  // R1 = currentPointer
+  __asm("LDR R1,[R0]");
+  // sp = currentPointer->stackPointer
+  __asm("LDR SP,[R1]");
+  
   /* store r1 at address equals r0, i.e currentPointer = r1 */
   __asm("STR R1,[R0]");
   /* load cortex-M stack pointer at adress equals r1, i.e SP = currentPointer->stackPointer*/

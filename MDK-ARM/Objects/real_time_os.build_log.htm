@@ -26,8 +26,32 @@ Project File Date:  02/14/2026
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.14', folder: 'C:\Keil_Project\Keil_v5\ARM\ARMCLANG\Bin'
-Build target 'stm32f1xx'
-".\Objects\real_time_os.axf" - 0 Error(s), 0 Warning(s).
+Rebuild target 'stm32f1xx'
+compiling stm32f1xx_usart.c...
+compiling led.c...
+compiling stm32f1xx_dwt.c...
+compiling stm32f1xx_interrupt.c...
+compiling stm32f1xx_rcc.c...
+../source/main.c(55): warning: function 'task0' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
+{
+^
+../source/main.c(65): warning: function 'task1' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
+{
+^
+../source/main.c(74): warning: function 'task2' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
+{
+^
+3 warnings generated.
+compiling main.c...
+assembling startup_stm32f10x_md.s...
+compiling stm32f1xx_tim.c...
+compiling stm32f1xx_gpio.c...
+compiling kernel.c...
+compiling stm32f1xx_systick.c...
+compiling system_stm32f10x.c...
+linking...
+Program Size: Code=1660 RO-data=256 RW-data=0 ZI-data=2888  
+".\Objects\real_time_os.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -58,7 +82,7 @@ Package Vendor: Keil
       Source file:   Device\Source\system_stm32f10x.c
       Include file:  RTE_Driver\Config\RTE_Device.h
       Source file:   Device\Source\ARM\STM32F1xx_OPT.s
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
