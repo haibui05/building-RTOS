@@ -29,9 +29,19 @@
 #define TIM2_CCR4			(*(volatile uint32_t *)(TIM2_BASE + 0x40U))
 #define TIM2_DCR			(*(volatile uint32_t *)(TIM2_BASE + 0x48U))
 #define TIM2_DMAR			(*(volatile uint32_t *)(TIM2_BASE + 0x4CU))
-	
-void tim2_init(void);
+
+/*
+* counter = 10 => 1 ms
+* counter = 1000 => 100ms
+* counter = 10000 => 1s
+*/
+#define TIM2_PERIOD_1Ms 10U
+#define TIM2_PERIOD_100Ms 1000U
+#define TIM2_PERIOD_1000Ms 10000U
+ 
+void tim2_init(uint32_t counter);
 void tim2_delay_ms(uint32_t cnt);
 void tim2_delay_us(uint32_t cnt);
+void TIM2_IRQHandler(void);
 
 #endif // __STM32F1xx_TIM_H

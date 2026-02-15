@@ -50,7 +50,7 @@ void gpio_init(GPIO_TypeDef *GPIOx, UINT16 pin, GPIOMode_Type mode, GPIOSpeed_Ty
 					tmp_reg = (0x00 << 0) | (0x02 << 2);
 					GPIOx->ODR |= (1 << pos);
 					break;
-				case GPIO_MODE_INPUT_OD:
+				case GPIO_MODE_INPUT_PD:
 					tmp_reg = (0x00 << 0) | (0x02 << 2);
 					GPIOx->ODR &= ~(1 << pos);
 					break;

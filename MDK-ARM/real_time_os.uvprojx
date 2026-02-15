@@ -434,6 +434,11 @@
           <GroupName>include</GroupName>
           <Files>
             <File>
+              <FileName>stm32f1xx_afio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\include\stm32f1xx_afio.h</FilePath>
+            </File>
+            <File>
               <FileName>stm32f1xx_dwt.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\include\stm32f1xx_dwt.h</FilePath>

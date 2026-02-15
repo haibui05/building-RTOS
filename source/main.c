@@ -9,7 +9,8 @@
 #include "led.h"
 #include "kernel.h"
 
-static volatile uint32_t coopertive_task0_runner, task1_runner, task2_runner, periodic_task3_runner;
+static volatile uint32_t coopertive_task0_runner, task1_runner, task2_runner, periodic_task3_runner \
+	, timer_periodic_task4_runner;
 
 void task0(void);
 void task1(void);
@@ -22,8 +23,15 @@ void light_off(void);
 static void set_up_hardware(void)
 {
 	usart1_init(115200);
-	tim2_init();
+	tim2_init(TIM2_PERIOD_100Ms);
 	led_init();
+}
+
+void TIM2_IRQHandler(void)
+{
+	/* clear update flag */
+	TIM2_SR &= ~(1U << 0);
+	timer_periodic_task4_runner++;
 }
 
 int main(void)

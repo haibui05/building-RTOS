@@ -8,8 +8,9 @@
 #include "stm32f1xx_tim.h"
 #include "stm32f1xx_gpio.h"
 #include "stm32f1xx_rcc.h"
+#include "stm32f1xx_interrupt.h"
 
-void tim2_init(void)
+void tim2_init(uint32_t counter)
 {
 	// enable clock
 	clock_enable_APB1(RCC_APB1_TIM2, CLOCK_ON);
@@ -19,10 +20,16 @@ void tim2_init(void)
 	TIM2_CR1 |= (0 << 4); // direction: counter mode up
 	TIM2_CR1 |= (1 << 7); // ARPE
 	
-	TIM2_PSC = 72 - 1;		// 1 MHz
-	TIM2_ARR = 0xFFFF;
+	TIM2_PSC = 7200 - 1;		// 1 MHz
+	TIM2_ARR = counter - 1;
 	
-	TIM2_CR1 |= (1 << 0); // counter enable
+	TIM2_CNT = 0; /* clear counter*/
+	
+	TIM2_CR1 |= (1 << 0); /* enable timer */
+	
+	TIM2_DIER |= (1U << 0); /* enable timer interrupt */
+	
+	NVIC->ISER[0] |= (1U << 28); /* enable timer interrupt in NVIC */
 }
 
 void tim2_delay_ms(uint32_t cnt)

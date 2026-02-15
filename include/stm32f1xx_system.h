@@ -62,6 +62,7 @@ typedef enum
 #include "stdint.h"
 #include "stdbool.h"
 
+#include "stm32f1xx_interrupt.h"
 #include "stm32f1xx_rcc.h"
 #include "stm32f1xx_gpio.h"
 #include "stm32f1xx_usart.h"
@@ -69,5 +70,6 @@ typedef enum
 #include "stm32f1xx_systick.h"
 #include "stm32f1xx_dwt.h"
 #include "stm32f1xx_exti.h"
+#include "stm32f1xx_afio.h"
 
 #endif /* __STM32F1xx_SYSTEM_H */

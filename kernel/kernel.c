@@ -14,12 +14,12 @@ static uint32_t periodic_tick;
 
 void rtos_scheduler_round_robin(void)
 {
-  if ((++periodic_tick) == 100)
-  {
-    (*task3)();
-    periodic_tick = 0;
-  }
-  currentPointer = currentPointer->nextStackPointer;
+ if ((++periodic_tick) == 100)
+ {
+   (*task3)();
+   periodic_tick = 0;
+ }
+ currentPointer = currentPointer->nextStackPointer;
 }
 
 void rtos_kernel_release(void)

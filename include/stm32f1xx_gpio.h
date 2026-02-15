@@ -47,7 +47,7 @@ typedef enum
 	GPIO_MODE_AF_OD = 0x04,
 	GPIO_MODE_INPUT_ANALOG = 0x05,
 	GPIO_MODE_INPUT_PP = 0x06,
-	GPIO_MODE_INPUT_OD = 0x07
+	GPIO_MODE_INPUT_PD = 0x07
 } GPIOMode_Type;
 
 typedef enum
