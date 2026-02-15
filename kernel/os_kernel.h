@@ -53,8 +53,8 @@ extern void task3(void);
 extern void rtos_scheduler_round_robin(void);
 
 void rtos_semaphore_init(uint32_t *semaphore, uint32_t value);
-void rtos_semaphore_set(uint32_t *semaphore);
-void rtos_semaphore_wait(uint32_t *semaphore);
+void rtos_semaphore_give(uint32_t *semaphore);
+void rtos_semaphore_take(uint32_t *semaphore);
 
 void osKernelInit(void);
 void osYield(void);

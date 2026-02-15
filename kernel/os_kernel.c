@@ -204,14 +204,14 @@ void rtos_semaphore_init(uint32_t *semaphore, uint32_t value)
 	*semaphore = value;
 }
 
-void rtos_semaphore_set(uint32_t *semaphore)
+void rtos_semaphore_give(uint32_t *semaphore)
 {
 	__disable_irq();
 	*semaphore = *semaphore + 1;
 	__enable_irq();
 }
 
-void rtos_semaphore_wait(uint32_t *semaphore)
+void rtos_semaphore_take(uint32_t *semaphore)
 {
   /* old */
   // __disable_irq();
