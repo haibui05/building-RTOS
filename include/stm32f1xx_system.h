@@ -68,5 +68,6 @@ typedef enum
 #include "stm32f1xx_tim.h"
 #include "stm32f1xx_systick.h"
 #include "stm32f1xx_dwt.h"
+#include "stm32f1xx_exti.h"
 
 #endif /* __STM32F1xx_SYSTEM_H */

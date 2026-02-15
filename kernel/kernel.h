@@ -15,7 +15,8 @@
 #define BUS_FREQUENCY (72000000U)
 
 /* TCB structure definition */
-struct TCB {
+struct TCB
+{
 	uint32_t *stackPointer;
 	struct TCB *nextStackPointer;
 };

@@ -1,5 +1,5 @@
-./objects/stm32f1xx_gpio.o: ..\source\stm32f1xx_gpio.c \
-  ..\include\stm32f1xx_gpio.h ..\include\stm32f1xx_system.h \
+./objects/stm32f1xx_exti.o: ..\source\stm32f1xx_exti.c \
+  ..\include\stm32f1xx_exti.h ..\include\stm32f1xx_system.h \
   C:\Keil\Core\ARM\ARMCLANG\Bin\..\include\stdio.h \
   C:\Keil\Core\ARM\ARMCLANG\Bin\..\include\stdint.h \
   C:\Keil\Core\ARM\ARMCLANG\Bin\..\include\stdbool.h \

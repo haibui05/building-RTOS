@@ -423,6 +423,11 @@
               <FileType>1</FileType>
               <FilePath>..\source\stm32f1xx_interrupt.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f1xx_exti.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\stm32f1xx_exti.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -467,6 +472,11 @@
               <FileName>stm32f1xx_interrupt.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\include\stm32f1xx_interrupt.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f1xx_exti.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\include\stm32f1xx_exti.h</FilePath>
             </File>
           </Files>
         </Group>

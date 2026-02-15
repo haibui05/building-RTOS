@@ -51,7 +51,7 @@ void light_off(void)
 	printf("light off\n");
 }
 
-void task0(void)
+__attribute__((noreturn)) void task0(void)
 {
 	for (;;)
 	{
@@ -61,7 +61,7 @@ void task0(void)
 	}
 }
 
-void task1(void)
+__attribute__((noreturn)) void task1(void)
 {
 	for (;;)
 	{
@@ -70,7 +70,7 @@ void task1(void)
 	}
 }
 
-void task2(void)
+__attribute__((noreturn)) void task2(void)
 {
 	for (;;)
 	{
