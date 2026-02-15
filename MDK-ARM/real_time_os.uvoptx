@@ -517,8 +517,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\kernel\kernel.c</PathWithFileName>
-      <FilenameWithoutPath>kernel.c</FilenameWithoutPath>
+      <PathWithFileName>..\kernel\os_kernel.c</PathWithFileName>
+      <FilenameWithoutPath>os_kernel.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -529,8 +529,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\kernel\kernel.h</PathWithFileName>
-      <FilenameWithoutPath>kernel.h</FilenameWithoutPath>
+      <PathWithFileName>..\kernel\os_kernel.h</PathWithFileName>
+      <FilenameWithoutPath>os_kernel.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

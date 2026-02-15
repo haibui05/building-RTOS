@@ -1,6 +1,5 @@
-#include "kernel.h"
+#include "os_kernel.h"
 #include "stm32f1xx_interrupt.h"
-
 
 static uint32_t millis_prescaler = 0;
 
@@ -193,9 +192,50 @@ __attribute__((naked)) void SysTick_Handler(void)
   __asm("BX LR");
 }
 
+/* implement semaphores in scheduler */
+void rtos_semaphore_init(uint32_t *semaphore, uint32_t value)
+{
+	*semaphore = value;
+}
+
+void rtos_semaphore_set(uint32_t *semaphore)
+{
+	__disable_irq();
+	*semaphore = *semaphore + 1;
+	__enable_irq();
+}
+
+void rtos_semaphore_wait(uint32_t *semaphore)
+{
+  /* old */
+  // __disable_irq();
+  // while (*semaphore <= 0)
+  // {
+  //   __disable_irq();
+  //   __enable_irq();
+  // }
+  // __enable_irq();
+
+  /* new */
+	__disable_irq();
+	while (*semaphore <= 0)
+	{
+		__enable_irq();
+		rtos_kernel_release();  /* yield CPU to other tasks */
+		__disable_irq();
+	}
+	*semaphore = *semaphore - 1;  /* decrement semaphore */
+	__enable_irq();
+}
+
 void osKernelInit(void)
 {
   rtos_kernel_init();
+}
+
+void osYield(void)
+{
+  rtos_kernel_release();
 }
 
 void osKernelAddThreads( void (*task0)(void), void (*task1)(void), void (*task2)(void) )

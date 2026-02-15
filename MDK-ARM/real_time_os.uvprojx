@@ -504,14 +504,14 @@
           <GroupName>kernel</GroupName>
           <Files>
             <File>
-              <FileName>kernel.c</FileName>
+              <FileName>os_kernel.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\kernel\kernel.c</FilePath>
+              <FilePath>..\kernel\os_kernel.c</FilePath>
             </File>
             <File>
-              <FileName>kernel.h</FileName>
+              <FileName>os_kernel.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\kernel\kernel.h</FilePath>
+              <FilePath>..\kernel\os_kernel.h</FilePath>
             </File>
           </Files>
         </Group>

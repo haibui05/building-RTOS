@@ -5,8 +5,8 @@
  *      Author: haihbv
  */
 
-#ifndef __KERNEL_H
-#define __KERNEL_H
+#ifndef __OS_KERNEL_H
+#define __OS_KERNEL_H
 
 #include "stm32f1xx_system.h"
 
@@ -52,8 +52,13 @@ extern void rtos_kernel_launch(uint32_t quanta);
 extern void task3(void);
 extern void rtos_scheduler_round_robin(void);
 
+void rtos_semaphore_init(uint32_t *semaphore, uint32_t value);
+void rtos_semaphore_set(uint32_t *semaphore);
+void rtos_semaphore_wait(uint32_t *semaphore);
+
 void osKernelInit(void);
+void osYield(void);
 void osKernelAddThreads(void (*task0)(void), void (*task1)(void), void (*task2)(void));
 uint8_t osKernelLaunch(uint32_t quanta);
 
-#endif /* __KERNEL_H */
+#endif /* __OS_KERNEL_H */
