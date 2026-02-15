@@ -16,5 +16,6 @@
 extern void systick_init(void);
 extern uint32_t get_tick(void);
 extern void delay_ms(uint32_t delay);
+void SysTick_Handler(void);
 
 #endif /* __STM32F1xx_SYSTICK_H */

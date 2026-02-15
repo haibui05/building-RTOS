@@ -513,6 +513,11 @@
               <FileType>5</FileType>
               <FilePath>..\kernel\os_kernel.h</FilePath>
             </File>
+            <File>
+              <FileName>os_kernel.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\kernel\os_kernel.s</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

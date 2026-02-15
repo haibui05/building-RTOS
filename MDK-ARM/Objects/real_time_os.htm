@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\real_time_os.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\real_time_os.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6140002: Last Updated: Sun Feb 15 21:42:34 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6140002: Last Updated: Mon Feb 16 01:05:45 2026
 <BR><P>
 <H3>Maximum Stack Usage =         76 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -12,7 +12,9 @@ __rt_entry_main &rArr; main &rArr; set_up_hardware &rArr; usart1_init &rArr; gpi
 <H3>
 Functions with no stack information
 </H3><UL>
- <LI><a href="#[4d]">__user_initial_stackheap</a>
+ <LI><a href="#[8]">PendSV_Handler</a>
+ <LI><a href="#[5c]">rtos_kernel_scheduler_launch</a>
+ <LI><a href="#[4e]">__user_initial_stackheap</a>
 </UL>
 </UL>
 <P>
@@ -25,7 +27,6 @@ Mutually Recursive functions
  <LI><a href="#[5]">UsageFault_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[5]">UsageFault_Handler</a><BR>
  <LI><a href="#[6]">SVC_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[6]">SVC_Handler</a><BR>
  <LI><a href="#[7]">DebugMon_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[7]">DebugMon_Handler</a><BR>
- <LI><a href="#[8]">PendSV_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[8]">PendSV_Handler</a><BR>
  <LI><a href="#[1c]">ADC1_2_IRQHandler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[1c]">ADC1_2_IRQHandler</a><BR>
 </UL>
 <P>
@@ -60,7 +61,7 @@ Function Pointers
  <LI><a href="#[3]">MemManage_Handler</a> from startup_stm32f10x_md.o(.text) referenced from startup_stm32f10x_md.o(RESET)
  <LI><a href="#[1]">NMI_Handler</a> from startup_stm32f10x_md.o(.text) referenced from startup_stm32f10x_md.o(RESET)
  <LI><a href="#[b]">PVD_IRQHandler</a> from startup_stm32f10x_md.o(.text) referenced from startup_stm32f10x_md.o(RESET)
- <LI><a href="#[8]">PendSV_Handler</a> from startup_stm32f10x_md.o(.text) referenced from startup_stm32f10x_md.o(RESET)
+ <LI><a href="#[8]">PendSV_Handler</a> from os_kernel_1.o(.text) referenced from startup_stm32f10x_md.o(RESET)
  <LI><a href="#[f]">RCC_IRQHandler</a> from startup_stm32f10x_md.o(.text) referenced from startup_stm32f10x_md.o(RESET)
  <LI><a href="#[33]">RTCAlarm_IRQHandler</a> from startup_stm32f10x_md.o(.text) referenced from startup_stm32f10x_md.o(RESET)
  <LI><a href="#[d]">RTC_IRQHandler</a> from startup_stm32f10x_md.o(.text) referenced from startup_stm32f10x_md.o(RESET)
@@ -216,7 +217,7 @@ Global Symbols
 
 <P><STRONG><a name="[87]"></a>__rt_entry_postli_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000C))
 
-<P><STRONG><a name="[4e]"></a>__rt_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit.o(.ARM.Collect$$rtexit$$00000000))
+<P><STRONG><a name="[4f]"></a>__rt_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit.o(.ARM.Collect$$rtexit$$00000000))
 <BR><BR>[Called By]<UL><LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
 </UL>
 
@@ -228,6 +229,18 @@ Global Symbols
 
 <P><STRONG><a name="[48]"></a>__rt_exit_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000004))
 <BR><BR>[Calls]<UL><LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sys_exit
+</UL>
+
+<P><STRONG><a name="[8]"></a>PendSV_Handler</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, os_kernel_1.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
+<LI>Call Chain = PendSV_Handler &rArr; rtos_scheduler_round_robin
+</UL>
+<BR>[Calls]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtos_scheduler_round_robin
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup_stm32f10x_md.o(RESET)
+</UL>
+<P><STRONG><a name="[5c]"></a>rtos_kernel_scheduler_launch</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, os_kernel_1.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtos_kernel_launch
 </UL>
 
 <P><STRONG><a name="[0]"></a>Reset_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, startup_stm32f10x_md.o(.text))
@@ -279,13 +292,6 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DebugMon_Handler
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DebugMon_Handler
-</UL>
-<BR>[Address Reference Count : 1]<UL><LI> startup_stm32f10x_md.o(RESET)
-</UL>
-<P><STRONG><a name="[8]"></a>PendSV_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, startup_stm32f10x_md.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PendSV_Handler
-</UL>
-<BR>[Called By]<UL><LI><a href="#[8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PendSV_Handler
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f10x_md.o(RESET)
 </UL>
@@ -416,12 +422,12 @@ Global Symbols
 <P><STRONG><a name="[a]"></a>WWDG_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32f10x_md.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f10x_md.o(RESET)
 </UL>
-<P><STRONG><a name="[4d]"></a>__user_initial_stackheap</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup_stm32f10x_md.o(.text))
+<P><STRONG><a name="[4e]"></a>__user_initial_stackheap</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup_stm32f10x_md.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
 
-<P><STRONG><a name="[4a]"></a>__aeabi_memset4</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, aeabi_memset4.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_memset_w
+<P><STRONG><a name="[4b]"></a>__aeabi_memset4</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, aeabi_memset4.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_memset_w
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtos_kernel_stack_init
 </UL>
@@ -446,16 +452,16 @@ Global Symbols
 
 <P><STRONG><a name="[8f]"></a>__rt_memclr_w</STRONG> (Thumb, 78 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED)
 
-<P><STRONG><a name="[4b]"></a>_memset_w</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rt_memclr_w.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset4
+<P><STRONG><a name="[4c]"></a>_memset_w</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rt_memclr_w.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset4
 </UL>
 
 <P><STRONG><a name="[40]"></a>__user_setup_stackheap</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, sys_stackheap_outer.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = __user_setup_stackheap
 </UL>
-<BR>[Calls]<UL><LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_initial_stackheap
-<LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_perproc_libspace
+<BR>[Calls]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_initial_stackheap
+<LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_perproc_libspace
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_sh
 </UL>
@@ -464,14 +470,14 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = exit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit
+<BR>[Calls]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
 <P><STRONG><a name="[90]"></a>__user_libspace</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
 
-<P><STRONG><a name="[4c]"></a>__user_perproc_libspace</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, libspace.o(.text))
+<P><STRONG><a name="[4d]"></a>__user_perproc_libspace</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, libspace.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
 
@@ -494,11 +500,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtos_kernel_launch
 </UL>
 
-<P><STRONG><a name="[9]"></a>SysTick_Handler</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, os_kernel.o(.text.SysTick_Handler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = SysTick_Handler &rArr; rtos_scheduler_round_robin
-</UL>
-<BR>[Calls]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtos_scheduler_round_robin
-</UL>
+<P><STRONG><a name="[9]"></a>SysTick_Handler</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, os_kernel.o(.text.SysTick_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f10x_md.o(RESET)
 </UL>
 <P><STRONG><a name="[26]"></a>TIM2_IRQHandler</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, main.o(.text.TIM2_IRQHandler))
@@ -564,7 +566,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[5a]"></a>rtos_kernel_launch</STRONG> (Thumb, 84 bytes, Stack size 8 bytes, os_kernel.o(.text.rtos_kernel_launch))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = rtos_kernel_launch
+<BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
+<LI>Call Chain = rtos_kernel_launch
 </UL>
 <BR>[Calls]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtos_kernel_scheduler_launch
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_SetPriority
@@ -575,10 +578,6 @@ Global Symbols
 <P><STRONG><a name="[60]"></a>rtos_kernel_release</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, os_kernel.o(.text.rtos_kernel_release))
 <BR><BR>[Called By]<UL><LI><a href="#[36]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task0
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtos_semaphore_wait
-</UL>
-
-<P><STRONG><a name="[5c]"></a>rtos_kernel_scheduler_launch</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, os_kernel.o(.text.rtos_kernel_scheduler_launch))
-<BR><BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtos_kernel_launch
 </UL>
 
 <P><STRONG><a name="[59]"></a>rtos_kernel_stack_add_threads</STRONG> (Thumb, 102 bytes, Stack size 32 bytes, os_kernel.o(.text.rtos_kernel_stack_add_threads))
@@ -594,17 +593,17 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = rtos_kernel_stack_init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset4
+<BR>[Calls]<UL><LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtos_kernel_stack_add_threads
 </UL>
 
-<P><STRONG><a name="[4f]"></a>rtos_scheduler_round_robin</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, os_kernel.o(.text.rtos_scheduler_round_robin))
+<P><STRONG><a name="[4a]"></a>rtos_scheduler_round_robin</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, os_kernel.o(.text.rtos_scheduler_round_robin))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = rtos_scheduler_round_robin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task3
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
+<BR>[Called By]<UL><LI><a href="#[8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PendSV_Handler
 </UL>
 
 <P><STRONG><a name="[57]"></a>rtos_semaphore_init</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, os_kernel.o(.text.rtos_semaphore_init))
@@ -652,7 +651,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text.main)
 </UL>
 <P><STRONG><a name="[5e]"></a>task3</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, main.o(.text.task3))
-<BR><BR>[Called By]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtos_scheduler_round_robin
+<BR><BR>[Called By]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtos_scheduler_round_robin
 </UL>
 
 <P><STRONG><a name="[62]"></a>tim2_init</STRONG> (Thumb, 94 bytes, Stack size 16 bytes, stm32f1xx_tim.o(.text.tim2_init))

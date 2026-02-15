@@ -48,7 +48,9 @@ int main(void)
 	rtos_kernel_stack_add_threads(&task0, &task1, &task2);
 	rtos_kernel_launch(10);/* set round-robin time to 10ms */
 
-	for ( ;; );
+	for ( ;; ) {
+		/* should never be here */
+	}
 }
 
 void light_on(void)
