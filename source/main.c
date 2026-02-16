@@ -43,6 +43,7 @@ int main(void)
 	/*** os kernel ***/
 	rtos_kernel_init();
 	rtos_kernel_stack_add_threads(&task0, &task1, &task2);
+	rtos_kernel_add_periodic_threads(&task3, 100, &task4, 200);
 	rtos_kernel_launch(10);/* set round-robin time to 10ms */
 
 	for ( ;; ) {
@@ -66,7 +67,7 @@ __attribute__((noreturn)) void task0(void)
 	{
 		coopertive_task0_runner++;
 		// light_on();
-		rtos_kernel_release();
+		// rtos_kernel_release();
 	}
 }
 

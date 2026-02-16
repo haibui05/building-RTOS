@@ -57,6 +57,10 @@ void rtos_semaphore_give(uint32_t *semaphore); /* increment counter = unlock */
 void rtos_semaphore_take(uint32_t *semaphore); /* decrement counter = lock, 
 if counter <= 0 then wait until counter > 0 */
 
+extern uint8_t rtos_kernel_add_periodic_threads	(void (*task0)(void), uint32_t period1, \
+																					void (*task1)(void), uint32_t period2);
+extern void rtos_periodic_scheduler_round_robin(void);
+
 void osKernelInit(void);
 void osYield(void);
 void osKernelAddThreads(void (*task0)(void), void (*task1)(void), void (*task2)(void));

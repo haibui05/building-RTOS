@@ -203,6 +203,7 @@ void SysTick_Handler(void)
 //  __asm("BX LR");
 //}
 
+/**************************************************************************/
 /* implement semaphores in scheduler */
 void rtos_semaphore_init(uint32_t *semaphore, uint32_t value)
 {
@@ -239,7 +240,52 @@ void rtos_semaphore_take(uint32_t *semaphore)
 	__enable_irq();
 }
 
-/* Periodic TCBs */
+
+/**************************************************************************/
+
+/*** Periodic TCBs ***/
+#define NUMBER_OF_PERIODIC_THREADS 2
+
+typedef void (*taskT)(void);
+
+typedef struct
+{
+	taskT name_task;
+	uint32_t period;
+} PeriodicTask_t;
+
+static PeriodicTask_t TaskPeriodic[NUMBER_OF_PERIODIC_THREADS];
+static uint32_t time_millis_seconds;
+static uint32_t max_period;
+static uint32_t min_period;
+
+uint8_t rtos_kernel_add_periodic_threads	(void (*task0)(void), uint32_t period1, \
+																					void (*task1)(void), uint32_t period2)
+{
+	max_period = (period1 > period2) ? period1 : period2;
+	min_period = (period1 < period2) ? period1 : period2;
+	
+	TaskPeriodic[0].name_task = task0;
+	TaskPeriodic[0].period = period1;
+	TaskPeriodic[1].name_task = task1;
+	TaskPeriodic[1].period = period2;
+	return 1;
+}
+
+void rtos_periodic_scheduler_round_robin(void)
+{
+	if (time_millis_seconds < max_period) time_millis_seconds++;
+	else time_millis_seconds = 1;
+	
+	for (uint8_t i = 0; i < NUMBER_OF_PERIODIC_THREADS; i++)
+	{
+		if (((time_millis_seconds % TaskPeriodic[i].period) == 0) && (TaskPeriodic[i].name_task != NULL))
+		{
+			TaskPeriodic[i].name_task();
+		}
+	}
+ currentPointer = currentPointer->nextStackPointer;
+}
 
 
 void osKernelInit(void)
