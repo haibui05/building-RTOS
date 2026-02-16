@@ -10,7 +10,8 @@
 #include "os_kernel.h"
 
 static volatile uint32_t coopertive_task0_runner, task1_runner, task2_runner \
-	, periodic_task3_runner, timer_periodic_task4_runner;
+	, periodic1_runner, periodic2_runner\
+	, timer_periodic_runner;
 
 static uint32_t semaphore_1, semaphore_2;
 
@@ -22,23 +23,19 @@ void task3(void);
 void light_on(void);
 void light_off(void);
 
-static void set_up_hardware(void)
-{
-	usart1_init(115200);
-	tim2_init(TIM2_PERIOD_100Ms);
-	led_init();
-}
-
 void TIM2_IRQHandler(void)
 {
 	/* clear update flag */
 	TIM2_SR &= ~(1U << 0);
-	timer_periodic_task4_runner++;
+	timer_periodic_runner++;
+	led_red_toggle();
 }
 
 int main(void)
 {
-	set_up_hardware();
+	usart1_init(115200);
+	tim2_init(TIM2_PERIOD_1000Ms);
+	led_init();
 
 	/*** semaphore ***/
 	rtos_semaphore_init(&semaphore_1, 1);
@@ -77,10 +74,10 @@ __attribute__((noreturn)) void task1(void)
 {
 	for (;;)
 	{
-		rtos_semaphore_wait(&semaphore_1);
+		// rtos_semaphore_take(&semaphore_1);
 		task1_runner++;
-		light_off();
-		rtos_semaphore_set(&semaphore_2);
+		// light_off();
+		// rtos_semaphore_give(&semaphore_2);
 	}
 }
 
@@ -88,14 +85,21 @@ __attribute__((noreturn)) void task2(void)
 {
 	for (;;)
 	{
-		rtos_semaphore_wait(&semaphore_2);
+		// rtos_semaphore_take(&semaphore_2);
 		task2_runner++;
-		light_on();
-		rtos_semaphore_set(&semaphore_1);
+		// light_on();
+		// rtos_semaphore_give(&semaphore_1);
 	}
+}
+
+void task4(void)
+{
+	periodic2_runner++;
+	led_white_toggle();
 }
 
 void task3(void)
 {
-  periodic_task3_runner++;
+ 	periodic1_runner++;
+	led_blue_toggle();
 }

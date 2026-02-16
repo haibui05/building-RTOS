@@ -7,7 +7,7 @@
 
 #include "stm32f1xx_rcc.h"
 
-__attribute__((constructor)) void system_init_clock(void) // attribute help function is run before main
+/* __attribute__((constructor)) */ void system_init_clock(void) // attribute help function is run before main
 {
   // Configure system core clock up to 72MHz
   volatile uint32_t *pFLASH_ACR = (volatile uint32_t *)(FLASH_BASE);

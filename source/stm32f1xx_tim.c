@@ -20,7 +20,7 @@ void tim2_init(uint32_t counter)
 	TIM2_CR1 |= (0 << 4); // direction: counter mode up
 	TIM2_CR1 |= (1 << 7); // ARPE
 	
-	TIM2_PSC = 7200 - 1;		// 1 MHz
+	TIM2_PSC = 800 - 1;		// 1 MHz
 	TIM2_ARR = counter - 1;
 	
 	TIM2_CNT = 0; /* clear counter*/

@@ -44,7 +44,7 @@
 #define __disable_irq() INTERRUPT_DISABLE()
 #define __enable_irq() INTERRUPT_ENABLE()
 
-#define SYSTEM_CORE_CLOCK 72000000U
+#define SYSTEM_CORE_CLOCK 8000000U
 		
 typedef enum
 {

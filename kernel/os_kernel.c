@@ -13,10 +13,15 @@ static uint32_t periodic_tick;
 
 void rtos_scheduler_round_robin(void)
 {
- if ((++periodic_tick) == 100)
+ periodic_tick++;
+ if ((periodic_tick % 100) == 0)
  {
    (*task3)();
-   periodic_tick = 0;
+ }
+ if ((periodic_tick % 200) == 0)
+ {
+	 (*task4)();
+	 periodic_tick = 0;
  }
  currentPointer = currentPointer->nextStackPointer;
 }
@@ -120,7 +125,7 @@ void rtos_kernel_stack_add_threads( void (*task0)(void), void (*task1)(void), vo
 
 void rtos_kernel_init(void)
 {
-  millis_prescaler = (BUS_FREQUENCY / 1000); // if 72000000 = 1 second then 72000 = 1ms
+  millis_prescaler = (SYSTEM_CORE_CLOCK / 1000); // if 72000000 = 1 second then 72000 = 1ms
 }
 
 void rtos_kernel_launch(uint32_t quanta)
@@ -233,6 +238,9 @@ void rtos_semaphore_take(uint32_t *semaphore)
 	*semaphore = *semaphore - 1;  /* decrement semaphore */
 	__enable_irq();
 }
+
+/* Periodic TCBs */
+
 
 void osKernelInit(void)
 {
