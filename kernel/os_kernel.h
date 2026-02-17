@@ -11,7 +11,6 @@
 #include "stm32f1xx_system.h"
 
 #define NUMBER_THREADS 3
-#define STACK_SIZE 100 /* 100 word */
 
 /* TCB structure definition */
 struct TCB
@@ -52,13 +51,20 @@ extern void task3(void);
 extern void task4(void);
 extern void rtos_scheduler_round_robin(void);
 
+/* ------------------------------------------------------ */
 void rtos_semaphore_init(uint32_t *semaphore, uint32_t value);
 void rtos_semaphore_give(uint32_t *semaphore); /* increment counter = unlock */
 void rtos_semaphore_take(uint32_t *semaphore); /* decrement counter = lock, 
 if counter <= 0 then wait until counter > 0 */
+void rtos_cooperative_semaphore_take(uint32_t *);
 
-extern uint8_t rtos_kernel_add_periodic_threads	(void (*task0)(void), uint32_t period1, \
-																					void (*task1)(void), uint32_t period2);
+/* ------------------------------------------------------ */
+//extern uint8_t rtos_kernel_add_periodic_threads	(void (*task0)(void), uint32_t period1, \
+//																					void (*task1)(void), uint32_t period2);
+extern uint8_t rtos_kernel_add_periodic_threads (void (*task)(void), uint32_t period);
+extern void periodic_event_execute(void);
+extern void rtos_periodic_task_init(void (*task)(), uint32_t freq, uint8_t priority);
+
 extern void rtos_periodic_scheduler_round_robin(void);
 
 void osKernelInit(void);

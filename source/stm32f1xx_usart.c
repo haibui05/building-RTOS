@@ -11,8 +11,6 @@
 
 #include <stdio.h>
 
-#define CLOCK_MHZ 72000000U
-
 void usart1_init(uint32_t baud_rate)
 {
 	// base address of usart1
@@ -28,7 +26,7 @@ void usart1_init(uint32_t baud_rate)
 	gpio_init(GPIOA, GPIO_PIN_10, GPIO_MODE_INPUT_FLOATING, GPIO_SPEED_50MHZ);
 	
 	// configure usart
-	*pUSART_BRR = ((CLOCK_MHZ + baud_rate/2U) / baud_rate);
+	*pUSART_BRR = ((SYSTEM_CORE_CLOCK + baud_rate/2U) / baud_rate);
 	
 	*pUSART_CR1 |= (0 << 12); //  1 Start bit, 8 Data bits, n Stop bit
 	*pUSART_CR1 |= (0 << 10); // 	0: Parity control disabled

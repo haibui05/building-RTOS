@@ -1,5 +1,9 @@
 #include "os_kernel.h"
 #include "stm32f1xx_interrupt.h"
+#include "stm32f1xx_tim.h"
+
+#define STACK_SIZE 100 /* 100 word */
+#define MAX_PERIODIC_THREAD 5
 
 static uint32_t millis_prescaler = 0;
 
@@ -31,7 +35,6 @@ void rtos_kernel_release(void)
   /* clear systick current value register */
   volatile uint32_t *pSYST_CVR = (volatile uint32_t *)(0xE000E018);
   *pSYST_CVR = 0;
-  
   /* trigger systick */
   SCB->ICSR = (1U << 26); /* set pending */
 }
@@ -65,67 +68,31 @@ void rtos_kernel_stack_add_threads( void (*task0)(void), void (*task1)(void), vo
 {
   /* Disable global interrupt */
   __disable_irq(); /* disable de tranh bi vo hieu hoa cac thao tac ben trong */
-  
   TCBs[0].nextStackPointer = &TCBs[1];
   TCBs[1].nextStackPointer = &TCBs[2];
   TCBs[2].nextStackPointer = &TCBs[0];
-  
   /* Initialize stack for thread 0 */
   rtos_kernel_stack_init(0);
-  
   /* Initialize program counter */
   TCB_Stack[0][STACK_SIZE - 2] = (uint32_t)(task0);
-  
   /* Initialize stack for thread 1 */
   rtos_kernel_stack_init(1);
-  
   /* Initialize program counter */
   TCB_Stack[1][STACK_SIZE - 2] = (uint32_t)(task1);
-  
   /* Initialize stack for thread 2 */
   rtos_kernel_stack_init(2);
-  
   /* Initialize program counter */
   TCB_Stack[2][STACK_SIZE - 2] = (uint32_t)(task2);
-  
   /* Start from thread 0 */
   currentPointer = &TCBs[0];
-  
-  
   /* Enable global interrupt */
   __enable_irq();
 }
 
-/* This function is writed in os_kernel.s */
-//__attribute__((naked)) void rtos_kernel_scheduler_launch()
-//{
-//  /* Load address of currentPointer into R0 */
-//  __asm("LDR R0, =currentPointer");
-//  /* Load R2 from address equal to R0, i.e R2 = currentPointer */
-//  __asm("LDR R2, [R0]");
-//  /* Load cortex-M SP from address equal to R2, i.e SP = currentPointer->stackPointer */
-//  __asm("LDR SP, [R2]");
-//  /* Restore R4-R11 */
-//  __asm("POP {R4-R11}");
-//  /* Restore R0-R3 */
-//  __asm("POP {R0-R3}");
-//  /* Skip R12 */
-//  __asm("POP {R12}");
-//  /* Skip LR */
-//  __asm("ADD SP, SP, #4");
-//  /* Create a new start location by popping LR */
-//  __asm("POP {LR}");
-//  /* Skip PSR by adding 4 to SP */
-//  __asm("ADD SP, SP, #4");
-//  /* Enable global interrupt */
-//  __asm("CPSIE I");
-//  /* Return from exception */
-//  __asm("BX LR");
-//} 
-
 void rtos_kernel_init(void)
 {
   millis_prescaler = (SYSTEM_CORE_CLOCK / 1000); // if 72000000 = 1 second then 72000 = 1ms
+	rtos_periodic_task_init(&periodic_event_execute, 1000, 6);
 }
 
 void rtos_kernel_launch(uint32_t quanta)
@@ -149,7 +116,7 @@ void rtos_kernel_launch(uint32_t quanta)
   
   *pSYST_CSR |= (1U << 2); /* select interal clock */
   
-  rtos_kernel_scheduler_launch(); /* launch scheduler */
+  rtos_kernel_scheduler_launch(); /* launch scheduler in os_kernel.s */
 }
 
 /* During exception r0,r1,r2,r3,r12,lr,pc,psr are automatically saved onto the stack */
@@ -159,52 +126,10 @@ void SysTick_Handler(void)
 	volatile uint32_t *pICSR = (volatile uint32_t*)(0xE000ED04); /* trigger pending PendSV */
 	*pICSR |= (1U << 28);
 }
-//__attribute__((naked)) void SysTick_Handler(void)
-//{
-//  /* 
-//   * 1. suspend current thread 
-//   */
-//  /* disable global interrupt */
-//  __asm("CPSID  I");
-//  
-//  /* save r4, r5, r6, r7, r8, r9, r10, r11 */
-//  __asm("PUSH {R4-R11}");
-//  /* load address of current pointer into r0 */
-//  __asm("LDR R0, =currentPointer");
-//  /* load r1 from address equals r0, i.e. r1 = currentPointer */
-//  __asm("LDR R1,[R0]");
-//  /* store cortex-M stack pointer at address equals r1, i.e. save SP into TCB */
-//  __asm("STR SP,[R1]");
-//  
-//  /* 
-//   * 2. choose next thread 
-//   */
-//  /* load r1 from a location 4 bytes above address r1, i.e r1 = current->nextStackPointer */
-//  // __asm("LDR R1,[R1,#4]");
-//  
-//  __asm("PUSH {R0, LR}");
-//  __asm("BL rtos_scheduler_round_robin");
-//  __asm("POP {R0, LR}");
-//  
-//  // R1 = currentPointer
-//  __asm("LDR R1,[R0]");
-//  // sp = currentPointer->stackPointer
-//  __asm("LDR SP,[R1]");
-//  
-//  /* store r1 at address equals r0, i.e currentPointer = r1 */
-//  __asm("STR R1,[R0]");
-//  /* load cortex-M stack pointer at adress equals r1, i.e SP = currentPointer->stackPointer*/
-//  __asm("LDR SP,[R1]"); 
-//  /* restoring r4, r5, r6, r7, r8, r9, r10, r11 */
-//  __asm("POP {R4-R11}");
-//  /* enable global interrupt */
-//  __asm("CPSIE  I");
-//  /* return from exception and restore r0, r1, r2, r3, r12, lr, pc, psr */
-//  __asm("BX LR");
-//}
 
-/**************************************************************************/
-/* implement semaphores in scheduler */
+/*************************************************************************
+ * Implement semaphore for synchronization between threads in RTOS scheduler
+*************************************************************************/
 void rtos_semaphore_init(uint32_t *semaphore, uint32_t value)
 {
 	*semaphore = value;
@@ -219,16 +144,18 @@ void rtos_semaphore_give(uint32_t *semaphore)
 
 void rtos_semaphore_take(uint32_t *semaphore)
 {
-  /* old */
-  // __disable_irq();
-  // while (*semaphore <= 0)
-  // {
-  //   __disable_irq();
-  //   __enable_irq();
-  // }
-  // __enable_irq();
+	__disable_irq();
+	while (*semaphore <= 0)
+	{
+		__enable_irq();
+		__disable_irq();
+	}
+	*semaphore = *semaphore - 1;  /* decrement semaphore */
+	__enable_irq();
+}
 
-  /* new */
+void rtos_cooperative_semaphore_take(uint32_t *semaphore)
+{
 	__disable_irq();
 	while (*semaphore <= 0)
 	{
@@ -241,10 +168,11 @@ void rtos_semaphore_take(uint32_t *semaphore)
 }
 
 
-/**************************************************************************/
-
+/*************************************************************************
+ * Implement threads control block for periodic threads in RTOS scheduler
+*************************************************************************/
 /*** Periodic TCBs ***/
-#define NUMBER_OF_PERIODIC_THREADS 2
+#define NUMBER_OF_PERIODIC_THREADS 3
 
 typedef void (*taskT)(void);
 
@@ -252,42 +180,91 @@ typedef struct
 {
 	taskT name_task;
 	uint32_t period;
+	uint32_t time_remaning;
 } PeriodicTask_t;
 
 static PeriodicTask_t TaskPeriodic[NUMBER_OF_PERIODIC_THREADS];
-static uint32_t time_millis_seconds;
-static uint32_t max_period;
-static uint32_t min_period;
+static uint32_t number_of_period_thread;
 
-uint8_t rtos_kernel_add_periodic_threads	(void (*task0)(void), uint32_t period1, \
-																					void (*task1)(void), uint32_t period2)
+//uint8_t rtos_kernel_add_periodic_threads	(void (*task0)(void), uint32_t period1, \
+//																					void (*task1)(void), uint32_t period2)
+//{
+//	max_period = (period1 > period2) ? period1 : period2;
+//	min_period = (period1 < period2) ? period1 : period2;
+//	
+//	TaskPeriodic[0].name_task = task0;
+//	TaskPeriodic[0].period = period1;
+//	TaskPeriodic[1].name_task = task1;
+//	TaskPeriodic[1].period = period2;
+//	return 1;
+//}
+
+uint8_t rtos_kernel_add_periodic_threads (void (*task)(void), uint32_t period)
 {
-	max_period = (period1 > period2) ? period1 : period2;
-	min_period = (period1 < period2) ? period1 : period2;
-	
-	TaskPeriodic[0].name_task = task0;
-	TaskPeriodic[0].period = period1;
-	TaskPeriodic[1].name_task = task1;
-	TaskPeriodic[1].period = period2;
+	if ((number_of_period_thread == MAX_PERIODIC_THREAD) || (period == 0))
+	{
+		return 0;
+	}
+	TaskPeriodic[number_of_period_thread].name_task = task;
+	TaskPeriodic[number_of_period_thread].period = period;
+	TaskPeriodic[number_of_period_thread].time_remaning = period - 1;
+	number_of_period_thread++;
 	return 1;
+}
+
+void periodic_event_execute(void)
+{
+	for (uint32_t i = 0; i < number_of_period_thread; i++)
+	{
+		if (TaskPeriodic[i].time_remaning == 0)
+		{
+			TaskPeriodic[i].name_task();
+			TaskPeriodic[i].time_remaning = TaskPeriodic[i].period - 1;
+		}
+		else
+		{
+			TaskPeriodic[i].time_remaning--;
+		}
+	}
 }
 
 void rtos_periodic_scheduler_round_robin(void)
 {
-	if (time_millis_seconds < max_period) time_millis_seconds++;
-	else time_millis_seconds = 1;
-	
-	for (uint8_t i = 0; i < NUMBER_OF_PERIODIC_THREADS; i++)
-	{
-		if (((time_millis_seconds % TaskPeriodic[i].period) == 0) && (TaskPeriodic[i].name_task != NULL))
-		{
-			TaskPeriodic[i].name_task();
-		}
-	}
  currentPointer = currentPointer->nextStackPointer;
 }
 
+void (*periodic_threads)(void);
 
+void rtos_periodic_task_init(void (*task)(), uint32_t freq, uint8_t priority)
+{
+	__disable_irq();
+	periodic_threads = task;
+	clock_enable_APB1(RCC_APB1_TIM2, CLOCK_ON);
+	clock_enable_APB2(RCC_APB2_GPIOA| RCC_APB2_AFIO, CLOCK_ON);
+	TIM2_CR1 |= (0 << 8); // clock division
+	TIM2_CR1 |= (0 << 4); // direction: counter mode up
+	TIM2_CR1 |= (1 << 7); // ARPE
+	TIM2_PSC = 8 - 1;		// 1us
+	TIM2_ARR = ( 1000000 / freq ) - 1;    // one s
+	TIM2_CNT = 0; /* clear counter*/
+	TIM2_CR1 |= (1 << 0); /* enable timer */
+	TIM2_DIER |= (1U << 0); /* enable timer interrupt */
+	NVIC_SetPriority(TIM2_IRQn, priority);
+	NVIC->ISER[0] |= (1U << 28); /* enable timer interrupt in NVIC */
+	__enable_irq();
+}
+
+void TIM2_IRQHandler(void)
+{
+	/* clear update flag */
+	TIM2_SR &= ~(1U << 0);
+	(*periodic_threads)();
+}
+
+
+/*************************************************************************
+ * Implement RTOS kernel API
+*************************************************************************/
 void osKernelInit(void)
 {
   rtos_kernel_init();

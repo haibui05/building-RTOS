@@ -4,6 +4,8 @@
  *  Created on: Feb 13, 2026
  *      Author: haihbv
  */
+ 
+
 
 #ifndef __STM32F1xx_INTERRUPT_H
 #define __STM32F1xx_INTERRUPT_H
@@ -41,6 +43,31 @@ typedef enum IRQn
   DMA1_Channel5_IRQn          = 15,     /*!< DMA1 Channel 5 global Interrupt                      */
   DMA1_Channel6_IRQn          = 16,     /*!< DMA1 Channel 6 global Interrupt                      */
   DMA1_Channel7_IRQn          = 17,     /*!< DMA1 Channel 7 global Interrupt                      */
+	ADC1_2_IRQn                 = 18,
+	CAN1_TX_IRQn                = 19,
+  CAN1_RX0_IRQn               = 20,
+  CAN1_RX1_IRQn               = 21,
+  CAN1_SCE_IRQn               = 22,
+  EXTI9_5_IRQn                = 23,
+  TIM1_BRK_IRQn               = 24,
+  TIM1_UP_IRQn                = 25,
+  TIM1_TRG_COM_IRQn           = 26,
+  TIM1_CC_IRQn                = 27,
+  TIM2_IRQn                   = 28,
+  TIM3_IRQn                   = 29,
+  TIM4_IRQn                   = 30,
+  I2C1_EV_IRQn                = 31,
+  I2C1_ER_IRQn                = 32,
+  I2C2_EV_IRQn                = 33,
+  I2C2_ER_IRQn                = 34,
+  SPI1_IRQn                   = 35,
+  SPI2_IRQn                   = 36,
+  USART1_IRQn                 = 37,
+  USART2_IRQn                 = 38,
+  USART3_IRQn                 = 39,
+  EXTI15_10_IRQn              = 40,
+  RTCAlarm_IRQn               = 41,
+  USBWakeUp_IRQn              = 42,
 } IRQn_t;
 
 typedef struct
@@ -60,19 +87,19 @@ typedef struct
 
 typedef struct
 {
-    volatile uint32_t CPUID;
-    volatile uint32_t ICSR;
-    volatile uint32_t VTOR;
-    volatile uint32_t AIRCR;
-    volatile uint32_t SCR;
-    volatile uint32_t CCR;
-    volatile uint8_t  SHPR[12];
-    volatile uint32_t SHCSR;
+  volatile uint32_t CPUID;
+  volatile uint32_t ICSR;
+  volatile uint32_t VTOR;
+  volatile uint32_t AIRCR;
+  volatile uint32_t SCR;
+  volatile uint32_t CCR;
+  volatile uint8_t  SHPR[12];
+  volatile uint32_t SHCSR;
 } SCB_Type;
 
 #define SCB_BASE   (0xE000ED00UL)
 #define NVIC_BASE   (0xE000E100UL)
-#define __NVIC_PRIO_BITS 4   // STM32F1
+#define __NVIC_PRIO_BITS 4   
 
 #define SCB ((SCB_Type *)SCB_BASE)
 #define NVIC ((NVIC_Type *)NVIC_BASE)

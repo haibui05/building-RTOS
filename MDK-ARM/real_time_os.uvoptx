@@ -153,7 +153,7 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>coopertive_task0_runner,0x0A</ItemText>
+          <ItemText>task0_runner,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
@@ -168,17 +168,17 @@
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>timer_periodic_runner,0x0A</ItemText>
+          <ItemText>periodic3_runner,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>periodic1_runner,0x0A</ItemText>
+          <ItemText>periodic4_runner,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>periodic2_runner,0x0A</ItemText>
+          <ItemText>periodic5_runner,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
