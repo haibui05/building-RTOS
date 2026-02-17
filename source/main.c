@@ -17,7 +17,7 @@ char text0[] = "Task0 running\r\n";
 char text1[] = "Task1 running\r\n";
 char text2[] = "Task2 running\r\n";
 uint32_t value = 777;
-uint32_t receive_data = 0; 
+uint32_t rev_buffer_data[15] = {0};
  
 void task0(void);
 void task1(void);
@@ -38,8 +38,11 @@ int main(void)
 	// rtos_semaphore_init(&semaphore_1, 0);
 	// rtos_semaphore_init(&semaphore_2, 0);
 	
-	/*** os kernel ***/
+	/*** Initialize Kernel ***/
 	rtos_kernel_init();
+	rtos_fifo_init();
+	// rtos_mailbox_init();
+	/* add threads */
 	rtos_kernel_stack_add_threads(&task0, &task1, &task2);
 	// rtos_kernel_add_periodic_threads(&task3, 100, &task4, 200);
 	// rtos_kernel_add_periodic_threads(&task3, 500);
@@ -67,7 +70,9 @@ __attribute__((noreturn)) void task0(void)
 	for (;;)
 	{
 		task0_runner++;
-		rtos_mailbox_send(value);
+		rtos_fifo_add(task0_runner);
+		rtos_thread_sleep( 500u );
+		// rtos_mailbox_send(value);
 		// rtos_cooperative_semaphore_take(&semaphore_0);
 		// usart1_send_string(text0);
 		// rtos_semaphore_give(&semaphore_1);
@@ -80,7 +85,13 @@ __attribute__((noreturn)) void task1(void)
 	for (;;)
 	{
 		task1_runner++;
-		receive_data = rtos_mailbox_receive();
+		static uint32_t index;
+		rev_buffer_data[index] = rtos_fifo_read();
+		if (index > 9)
+				index = 0;
+		else 
+				index++;
+		// receive_data = rtos_mailbox_receive();
 		// rtos_cooperative_semaphore_take(&semaphore_1);
 		// usart1_send_string(text1);
 		// rtos_semaphore_give(&semaphore_2);

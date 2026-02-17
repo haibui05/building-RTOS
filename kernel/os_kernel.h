@@ -71,11 +71,16 @@ extern void rtos_periodic_scheduler_round_robin(void);
 /* ------------------------------------------------------ */
 extern void rtos_periodic_scheduler_round_robin_with_sleep(void);
 extern void rtos_thread_sleep(uint32_t sleep_time);
-\
+
 /* ------------------------------------------------------ */
 extern void rtos_mailbox_init(void);
 extern void rtos_mailbox_send(uint32_t data);
 extern uint32_t rtos_mailbox_receive(void);
+
+/* ------------------------------------------------------ */
+extern void rtos_fifo_init(void);
+extern int8_t rtos_fifo_add(uint32_t data);
+extern uint32_t rtos_fifo_read(void);
 
 void osKernelInit(void);
 void osYield(void);

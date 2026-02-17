@@ -333,6 +333,46 @@ uint32_t rtos_mailbox_receive(void)
 }
 
 /*************************************************************************
+ * FIFO
+*************************************************************************/
+#define FIFO_SIZE 15
+uint32_t fifo_buffer[FIFO_SIZE];
+uint32_t put_index;
+uint32_t get_index;
+uint32_t current_fifo_size;
+uint32_t lost_data;
+
+void rtos_fifo_init(void)
+{
+	put_index = 0;
+	get_index = 0;
+	rtos_semaphore_init(&current_fifo_size, 0);
+	lost_data = 0;
+}
+int8_t rtos_fifo_add(uint32_t data)
+{
+	if (current_fifo_size == FIFO_SIZE)
+	{
+		lost_data++;
+		return -1; /* FIFO full */
+	}
+	fifo_buffer[put_index] = data;
+	put_index = (put_index + 1) % FIFO_SIZE;
+	rtos_semaphore_give(&current_fifo_size);
+	return 1; /* success */
+}
+uint32_t rtos_fifo_read(void)
+{
+	uint32_t data;
+	rtos_cooperative_semaphore_take(&current_fifo_size);
+	__disable_irq();
+	data = fifo_buffer[get_index];
+	get_index = (get_index + 1) % FIFO_SIZE;
+	__enable_irq();
+	return data;
+}
+
+/*************************************************************************
  * Implement RTOS kernel API
 *************************************************************************/
 void osKernelInit(void)
