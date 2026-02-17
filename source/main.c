@@ -1,7 +1,7 @@
 /*
  * main.c
  *
- *  Created on: Feb 11, 2026
+ *  Created on: Feb 17, 2026
  *      Author: haihbv
  */
 
@@ -9,76 +9,48 @@
 #include "led.h"
 #include "os_kernel.h"
 
-static volatile uint32_t sporadic_runner, task1_runner, task2_runner \
-	, periodic3_runner, periodic4_runner, periodic5_runner;
-static uint32_t semaphore_0, semaphore_1, semaphore_2,main_edge_semaphore;
-
-char text0[] = "Task0 running\r\n";
-char text1[] = "Task1 running\r\n";
-char text2[] = "Task2 running\r\n";
-uint32_t value = 777;
-uint32_t rev_buffer_data[15] = {0};
- 
 void task0(void);
 void task1(void);
 void task2(void);
-void task3(void);
-void task5(void);
 
-void light_on(void);
-void light_off(void);
+uint32_t main_edge_semaphore, sporadic_runner, task1_runner;
+volatile uint32_t task2_runner;
+uint32_t rev_buffer_data[16];
+Queue_Type mainQueue;
 
 int main(void)
 {
 	usart1_init(115200);
 	led_init();
-
-	/*** semaphore ***/
-	// rtos_semaphore_init(&semaphore_0, 1);
-	// rtos_semaphore_init(&semaphore_1, 0);
-	// rtos_semaphore_init(&semaphore_2, 0);
-	
 	/*** Initialize Kernel ***/
 	rtos_kernel_init();
-	// rtos_fifo_init();
-	// rtos_mailbox_init();
-	rtos_egde_trigger_init(&main_edge_semaphore);
+	// rtos_semaphore_init(&main_edge_semaphore, 0);
+	// rtos_egde_trigger_init(&main_edge_semaphore);
+	queue_init(&mainQueue);
 	/* add threads */
 	rtos_kernel_stack_add_threads(&task0, &task1, &task2);
-	// rtos_kernel_add_periodic_threads(&task3, 100, &task4, 200);
-	// rtos_kernel_add_periodic_threads(&task3, 500);
-	// rtos_kernel_add_periodic_threads(&task4, 1000);
-	// rtos_kernel_add_periodic_threads(&task5, 1500);
-	rtos_kernel_launch(10);/* set round-robin time to 10ms */
-
-	for ( ;; ) {
-		/* should never be here */
-	}
-}
-
-void light_on(void)
-{
-	usart1_send_string("light on\n");
-}
-
-void light_off(void)
-{
-	usart1_send_string("light off\n");
+	rtos_kernel_launch(10); /* set round-robin time to 10ms */
+	while (1)
+		;
 }
 
 __attribute__((noreturn)) void task0(void)
 {
+	static uint32_t counter = 0;
 	for (;;)
 	{
-		rtos_cooperative_semaphore_take(&main_edge_semaphore);
 		sporadic_runner++;
-		// rtos_fifo_add(task0_runner);
-		// rtos_thread_sleep( 500u );
-		// rtos_mailbox_send(value);
-		// rtos_cooperative_semaphore_take(&semaphore_0);
-		// usart1_send_string(text0);
-		// rtos_semaphore_give(&semaphore_1);
-		// rtos_thread_sleep(200u);
+
+		if (queue_send(&mainQueue, counter) > 0)
+		{
+			usart1_send_string("Queue send\n");
+			counter++;
+		}
+		else
+		{
+			usart1_send_string("Queue full\n");
+		}
+		rtos_thread_sleep(1000u);
 	}
 }
 
@@ -86,17 +58,21 @@ __attribute__((noreturn)) void task1(void)
 {
 	for (;;)
 	{
-		task1_runner++;
-		// static uint32_t index;
-		// rev_buffer_data[index] = rtos_fifo_read();
-		// if (index > 9)
-		// 		index = 0;
-		// else 
-		// 		index++;
-		// receive_data = rtos_mailbox_receive();
-		// rtos_cooperative_semaphore_take(&semaphore_1);
-		// usart1_send_string(text1);
-		// rtos_semaphore_give(&semaphore_2);
+		uint32_t data;
+		for (;;)
+		{
+			if (queue_receive(&mainQueue, &data) > 0)
+			{
+				usart1_send_string("Queue recv\n");
+				/* debug */
+				rev_buffer_data[task1_runner % 16] = data;
+				task1_runner++;
+			}
+			else
+			{
+				rtos_kernel_release();
+			}
+		}
 	}
 }
 
@@ -105,36 +81,6 @@ __attribute__((noreturn)) void task2(void)
 	for (;;)
 	{
 		task2_runner++;
-		// rtos_cooperative_semaphore_take(&semaphore_2);
-		// usart1_send_string(text2);
-		// rtos_semaphore_give(&semaphore_0);
+		rtos_thread_sleep(1);
 	}
 }
-
-void task3(void)
-{
- 	periodic3_runner++;
-	led_blue_toggle();
-}
-
-void task4(void)
-{
-	periodic4_runner++;
-	led_white_toggle();
-}
-
-void task5(void)
-{
-	periodic5_runner++;
-	led_red_toggle();
-}
-
-void EXTI15_10_IRQHandler(void)
-{
-	if (EXTI->PR & (1U << 13))
-	{
-		EXTI->PR |= (1U << 13); /* clear pending bit */
-		rtos_semaphore_give(&main_edge_semaphore);
-	}
-}
-

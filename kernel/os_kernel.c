@@ -13,20 +13,20 @@ TCB_t TCBs[NUMBER_THREADS];
 
 /*** Stack 100 i.e 400 bytes***/
 static uint32_t TCB_Stack[NUMBER_THREADS][STACK_SIZE];
-static uint32_t periodic_tick;
+// static uint32_t periodic_tick;
 
 void rtos_scheduler_round_robin(void)
 {
- periodic_tick++;
- if ((periodic_tick % 100) == 0)
- {
-   (*task3)();
- }
- if ((periodic_tick % 200) == 0)
- {
-	 (*task4)();
-	 periodic_tick = 0;
- }
+// periodic_tick++;
+// if ((periodic_tick % 100) == 0)
+// {
+//	(*task3)();
+// }
+// if ((periodic_tick % 200) == 0)
+// {
+//	 (*task4)();
+//	 periodic_tick = 0;
+// }
  currentPointer = currentPointer->nextStackPointer;
 }
 
@@ -254,9 +254,9 @@ void rtos_periodic_scheduler_round_robin_with_sleep(void)
 }
 
 
-void (*periodic_threads)(void);
+static void (*periodic_threads)(void);
 
-void rtos_periodic_task_init(void (*task)(), uint32_t freq, uint8_t priority)
+void rtos_periodic_task_init(void (*task)(void), uint32_t freq, uint8_t priority)
 {
 	__disable_irq();
 	periodic_threads = task;
@@ -336,11 +336,11 @@ uint32_t rtos_mailbox_receive(void)
  * FIFO
 *************************************************************************/
 #define FIFO_SIZE 15
-uint32_t fifo_buffer[FIFO_SIZE];
-uint32_t put_index;
-uint32_t get_index;
-uint32_t current_fifo_size;
-uint32_t lost_data;
+static uint32_t fifo_buffer[FIFO_SIZE];
+static uint32_t put_index;
+static uint32_t get_index;
+static uint32_t current_fifo_size;
+static uint32_t lost_data;
 
 void rtos_fifo_init(void)
 {
@@ -379,9 +379,8 @@ void queue_init(Queue_Type *queue)
 {
 	queue->put_index = 0;
 	queue->get_index = 0;
-	queue->current_size = 0;
 	rtos_semaphore_init(&queue->current_size, 0);
-	queue->lock = 0;
+	rtos_semaphore_init(&queue->lock, 1);
 }
 
 int8_t queue_send(Queue_Type *queue, uint32_t data)
@@ -396,6 +395,7 @@ int8_t queue_send(Queue_Type *queue, uint32_t data)
 
 	queue->buffer[queue->put_index] = data;
 	queue->put_index = (queue->put_index + 1) % QUEUE_SIZE;
+	queue->current_size++;
 	rtos_semaphore_give(&queue->lock);
 	return 1; /* success */
 }
@@ -412,6 +412,7 @@ int8_t queue_receive(Queue_Type *queue, uint32_t *data)
 
 	*data = queue->buffer[queue->get_index];
 	queue->get_index = (queue->get_index + 1) % QUEUE_SIZE;
+	queue->current_size--;
 	rtos_semaphore_give(&queue->lock);
 	return 1; /* success */
 }
@@ -420,9 +421,9 @@ int8_t queue_receive(Queue_Type *queue, uint32_t *data)
 /*************************************************************************
  * Implement Sporadic threads
 *************************************************************************/
-uint32_t *edge_semaphore;
+static uint32_t *edge_semaphore;
 
-void gpio_external_interrupt_init(void)
+static void gpio_external_interrupt_init(void)
 {
 	__disable_irq();
 	clock_enable_APB2(RCC_APB2_GPIOC | RCC_APB2_AFIO, CLOCK_ON);
@@ -436,6 +437,18 @@ void rtos_egde_trigger_init(uint32_t *semaphore)
 {
 	edge_semaphore = semaphore;
 	gpio_external_interrupt_init();
+}
+
+void EXTI15_10_IRQHandler(void)
+{
+	if (EXTI->PR & (1U << 13))
+	{
+		EXTI->PR |= (1U << 13);
+		if (edge_semaphore != 0)
+		{
+			rtos_semaphore_give(edge_semaphore);
+		}
+	}
 }
 
 /*************************************************************************

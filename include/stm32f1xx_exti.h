@@ -55,6 +55,6 @@ typedef enum
 
 void exti_line0_init(void);
 void exti_init(EXTI_Port_t port_source, uint16_t pin_source, EXTI_Mode_t exti_mode);
-void EXTI0_IRQHandler(void);
+void EXTI0_IRQHandler(void);void EXTI15_10_IRQHandler(void);
 
 #endif /* __STM32F1xx_EXTI_H */

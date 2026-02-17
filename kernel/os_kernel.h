@@ -58,8 +58,8 @@ extern void rtos_kernel_scheduler_launch(void);
  * @brief Launch RTOS with quanta time (ms)
  */
 extern void rtos_kernel_launch(uint32_t quanta);
-extern void task3(void);
-extern void task4(void);
+//extern void task3(void);
+//extern void task4(void);
 extern void rtos_scheduler_round_robin(void);
 
 /* ------------------------------------------------------ */
@@ -74,7 +74,7 @@ void rtos_cooperative_semaphore_take(uint32_t *);
 //																					void (*task1)(void), uint32_t period2);
 extern uint8_t rtos_kernel_add_periodic_threads (void (*task)(void), uint32_t period);
 extern void periodic_event_execute(void);
-extern void rtos_periodic_task_init(void (*task)(), uint32_t freq, uint8_t priority);
+extern void rtos_periodic_task_init(void (*task)(void), uint32_t freq, uint8_t priority);
 
 extern void rtos_periodic_scheduler_round_robin(void);
 
