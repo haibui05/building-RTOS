@@ -153,7 +153,7 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>task0_runner,0x0A</ItemText>
+          <ItemText>sporadic_runner,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
@@ -164,11 +164,6 @@
           <count>2</count>
           <WinNumber>1</WinNumber>
           <ItemText>task2_runner,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>3</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>rev_buffer_data,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -202,7 +197,7 @@
         <aPa1>0</aPa1>
         <AscS4>0</AscS4>
         <aSer4>0</aSer4>
-        <StkLoc>0</StkLoc>
+        <StkLoc>1</StkLoc>
         <TrcWin>0</TrcWin>
         <newCpu>0</newCpu>
         <uProt>0</uProt>

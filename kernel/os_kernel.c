@@ -373,6 +373,72 @@ uint32_t rtos_fifo_read(void)
 }
 
 /*************************************************************************
+ * Queue
+*************************************************************************/
+void queue_init(Queue_Type *queue)
+{
+	queue->put_index = 0;
+	queue->get_index = 0;
+	queue->current_size = 0;
+	rtos_semaphore_init(&queue->current_size, 0);
+	queue->lock = 0;
+}
+
+int8_t queue_send(Queue_Type *queue, uint32_t data)
+{
+	rtos_semaphore_take(&queue->lock);
+
+	if (queue->current_size == QUEUE_SIZE)
+	{
+		rtos_semaphore_give(&queue->lock);
+		return -1; /* Queue full */
+	}
+
+	queue->buffer[queue->put_index] = data;
+	queue->put_index = (queue->put_index + 1) % QUEUE_SIZE;
+	rtos_semaphore_give(&queue->lock);
+	return 1; /* success */
+}
+
+int8_t queue_receive(Queue_Type *queue, uint32_t *data)
+{
+	rtos_semaphore_take(&queue->lock);
+
+	if (queue->current_size == 0)
+	{
+		rtos_semaphore_give(&queue->lock);
+		return -1; /* Queue empty */
+	}
+
+	*data = queue->buffer[queue->get_index];
+	queue->get_index = (queue->get_index + 1) % QUEUE_SIZE;
+	rtos_semaphore_give(&queue->lock);
+	return 1; /* success */
+}
+
+
+/*************************************************************************
+ * Implement Sporadic threads
+*************************************************************************/
+uint32_t *edge_semaphore;
+
+void gpio_external_interrupt_init(void)
+{
+	__disable_irq();
+	clock_enable_APB2(RCC_APB2_GPIOC | RCC_APB2_AFIO, CLOCK_ON);
+	gpio_init(GPIOC, GPIO_PIN_13, GPIO_MODE_INPUT_PU, GPIO_SPEED_50MHZ);
+	exti_init(GPIOC_SOURCE, GPIO_PIN_SOURCE_13, EXTI_MODE_FALLING);
+	NVIC_SetPriority(EXTI15_10_IRQn, 15);
+	__enable_irq();
+}
+
+void rtos_egde_trigger_init(uint32_t *semaphore)
+{
+	edge_semaphore = semaphore;
+	gpio_external_interrupt_init();
+}
+
+/*************************************************************************
  * Implement RTOS kernel API
 *************************************************************************/
 void osKernelInit(void)

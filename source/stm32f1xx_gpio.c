@@ -46,7 +46,7 @@ void gpio_init(GPIO_TypeDef *GPIOx, UINT16 pin, GPIOMode_Type mode, GPIOSpeed_Ty
 				case GPIO_MODE_INPUT_FLOATING:
 					tmp_reg = (0x00 << 0) | (0x01 << 2);
 					break;
-				case GPIO_MODE_INPUT_PP:
+				case GPIO_MODE_INPUT_PU:
 					tmp_reg = (0x00 << 0) | (0x02 << 2);
 					GPIOx->ODR |= (1 << pos);
 					break;

@@ -11,6 +11,7 @@
 #include "stm32f1xx_system.h"
 
 #define NUMBER_THREADS 3
+#define QUEUE_SIZE 16
 
 /* TCB structure definition */
 struct TCB
@@ -19,6 +20,15 @@ struct TCB
 	struct TCB *nextStackPointer;
 	uint32_t sleepTime;
 };
+
+typedef struct
+{
+	uint32_t buffer[QUEUE_SIZE];
+	uint32_t put_index;
+	uint32_t get_index;
+	uint32_t current_size;
+	uint32_t lock;
+} Queue_Type;
 
 typedef struct TCB TCB_t;
 
@@ -81,6 +91,14 @@ extern uint32_t rtos_mailbox_receive(void);
 extern void rtos_fifo_init(void);
 extern int8_t rtos_fifo_add(uint32_t data);
 extern uint32_t rtos_fifo_read(void);
+
+/* ------------------------------------------------------ */
+void rtos_egde_trigger_init(uint32_t *semaphore);
+
+/* ------------------------------------------------------ */
+void queue_init(Queue_Type *queue);
+int8_t queue_send(Queue_Type *queue, uint32_t data);
+int8_t queue_receive(Queue_Type *queue, uint32_t *data);
 
 void osKernelInit(void);
 void osYield(void);

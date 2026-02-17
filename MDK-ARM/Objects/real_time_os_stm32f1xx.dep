@@ -1,13 +1,13 @@
 Dependencies for Project 'real_time_os', Target 'stm32f1xx': (DO NOT MODIFY !)
 CompilerVersion: 6140000::V6.14::ARMCLANG
-F (..\source\main.c)(0x69942694)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-3 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../bsp -I ../include -I ../kernel -I ../source-I./RTE/Device/STM32F103C8-I./RTE/_stm32f1xx-IC:/Keil/Arm/Packs/ARM/CMSIS/6.3.0/CMSIS/Core/Include-IC:/Keil/Arm/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="531" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DSTM32F10X_MD-o ./objects/main.o -MD)
+F (..\source\main.c)(0x69943245)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-3 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../bsp -I ../include -I ../kernel -I ../source-I./RTE/Device/STM32F103C8-I./RTE/_stm32f1xx-IC:/Keil/Arm/Packs/ARM/CMSIS/6.3.0/CMSIS/Core/Include-IC:/Keil/Arm/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="531" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DSTM32F10X_MD-o ./objects/main.o -MD)
 I (..\include\stm32f1xx_system.h)(0x69929FB3)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdio.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdint.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdbool.h)(0x5ED619F4)
 I (..\include\stm32f1xx_interrupt.h)(0x6993FC69)
 I (..\include\stm32f1xx_rcc.h)(0x698E89C6)
-I (..\include\stm32f1xx_gpio.h)(0x699193D6)
+I (..\include\stm32f1xx_gpio.h)(0x69942D47)
 I (..\include\stm32f1xx_usart.h)(0x698E89BB)
 I (..\include\stm32f1xx_tim.h)(0x6991C9AA)
 I (..\include\stm32f1xx_systick.h)(0x69920A9C)
@@ -15,7 +15,7 @@ I (..\include\stm32f1xx_dwt.h)(0x698E89AD)
 I (..\include\stm32f1xx_exti.h)(0x6991A88C)
 I (..\include\stm32f1xx_afio.h)(0x6991A82A)
 I (..\bsp\led.h)(0x6992262E)
-I (..\kernel\os_kernel.h)(0x69942330)
+I (..\kernel\os_kernel.h)(0x699437E1)
 F (..\source\stm32f1xx_dwt.c)(0x698CC8E3)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-3 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../bsp -I ../include -I ../kernel -I ../source-I./RTE/Device/STM32F103C8-I./RTE/_stm32f1xx-IC:/Keil/Arm/Packs/ARM/CMSIS/6.3.0/CMSIS/Core/Include-IC:/Keil/Arm/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="531" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DSTM32F10X_MD-o ./objects/stm32f1xx_dwt.o -MD)
 I (..\include\stm32f1xx_dwt.h)(0x698E89AD)
 I (..\include\stm32f1xx_system.h)(0x69929FB3)
@@ -24,14 +24,14 @@ I (C:\Keil\Core\ARM\ARMCLANG\include\stdint.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdbool.h)(0x5ED619F4)
 I (..\include\stm32f1xx_interrupt.h)(0x6993FC69)
 I (..\include\stm32f1xx_rcc.h)(0x698E89C6)
-I (..\include\stm32f1xx_gpio.h)(0x699193D6)
+I (..\include\stm32f1xx_gpio.h)(0x69942D47)
 I (..\include\stm32f1xx_usart.h)(0x698E89BB)
 I (..\include\stm32f1xx_tim.h)(0x6991C9AA)
 I (..\include\stm32f1xx_systick.h)(0x69920A9C)
 I (..\include\stm32f1xx_exti.h)(0x6991A88C)
 I (..\include\stm32f1xx_afio.h)(0x6991A82A)
-F (..\source\stm32f1xx_gpio.c)(0x699193E5)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-3 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../bsp -I ../include -I ../kernel -I ../source-I./RTE/Device/STM32F103C8-I./RTE/_stm32f1xx-IC:/Keil/Arm/Packs/ARM/CMSIS/6.3.0/CMSIS/Core/Include-IC:/Keil/Arm/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="531" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DSTM32F10X_MD-o ./objects/stm32f1xx_gpio.o -MD)
-I (..\include\stm32f1xx_gpio.h)(0x699193D6)
+F (..\source\stm32f1xx_gpio.c)(0x69942D4F)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-3 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../bsp -I ../include -I ../kernel -I ../source-I./RTE/Device/STM32F103C8-I./RTE/_stm32f1xx-IC:/Keil/Arm/Packs/ARM/CMSIS/6.3.0/CMSIS/Core/Include-IC:/Keil/Arm/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="531" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DSTM32F10X_MD-o ./objects/stm32f1xx_gpio.o -MD)
+I (..\include\stm32f1xx_gpio.h)(0x69942D47)
 I (..\include\stm32f1xx_system.h)(0x69929FB3)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdio.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdint.h)(0x5ED619F4)
@@ -51,7 +51,7 @@ I (C:\Keil\Core\ARM\ARMCLANG\include\stdio.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdint.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdbool.h)(0x5ED619F4)
 I (..\include\stm32f1xx_interrupt.h)(0x6993FC69)
-I (..\include\stm32f1xx_gpio.h)(0x699193D6)
+I (..\include\stm32f1xx_gpio.h)(0x69942D47)
 I (..\include\stm32f1xx_usart.h)(0x698E89BB)
 I (..\include\stm32f1xx_tim.h)(0x6991C9AA)
 I (..\include\stm32f1xx_systick.h)(0x69920A9C)
@@ -66,7 +66,7 @@ I (C:\Keil\Core\ARM\ARMCLANG\include\stdint.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdbool.h)(0x5ED619F4)
 I (..\include\stm32f1xx_interrupt.h)(0x6993FC69)
 I (..\include\stm32f1xx_rcc.h)(0x698E89C6)
-I (..\include\stm32f1xx_gpio.h)(0x699193D6)
+I (..\include\stm32f1xx_gpio.h)(0x69942D47)
 I (..\include\stm32f1xx_usart.h)(0x698E89BB)
 I (..\include\stm32f1xx_tim.h)(0x6991C9AA)
 I (..\include\stm32f1xx_dwt.h)(0x698E89AD)
@@ -80,7 +80,7 @@ I (C:\Keil\Core\ARM\ARMCLANG\include\stdint.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdbool.h)(0x5ED619F4)
 I (..\include\stm32f1xx_interrupt.h)(0x6993FC69)
 I (..\include\stm32f1xx_rcc.h)(0x698E89C6)
-I (..\include\stm32f1xx_gpio.h)(0x699193D6)
+I (..\include\stm32f1xx_gpio.h)(0x69942D47)
 I (..\include\stm32f1xx_usart.h)(0x698E89BB)
 I (..\include\stm32f1xx_systick.h)(0x69920A9C)
 I (..\include\stm32f1xx_dwt.h)(0x698E89AD)
@@ -94,7 +94,7 @@ I (C:\Keil\Core\ARM\ARMCLANG\include\stdint.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdbool.h)(0x5ED619F4)
 I (..\include\stm32f1xx_interrupt.h)(0x6993FC69)
 I (..\include\stm32f1xx_rcc.h)(0x698E89C6)
-I (..\include\stm32f1xx_gpio.h)(0x699193D6)
+I (..\include\stm32f1xx_gpio.h)(0x69942D47)
 I (..\include\stm32f1xx_tim.h)(0x6991C9AA)
 I (..\include\stm32f1xx_systick.h)(0x69920A9C)
 I (..\include\stm32f1xx_dwt.h)(0x698E89AD)
@@ -107,7 +107,7 @@ I (C:\Keil\Core\ARM\ARMCLANG\include\stdio.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdint.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdbool.h)(0x5ED619F4)
 I (..\include\stm32f1xx_rcc.h)(0x698E89C6)
-I (..\include\stm32f1xx_gpio.h)(0x699193D6)
+I (..\include\stm32f1xx_gpio.h)(0x69942D47)
 I (..\include\stm32f1xx_usart.h)(0x698E89BB)
 I (..\include\stm32f1xx_tim.h)(0x6991C9AA)
 I (..\include\stm32f1xx_systick.h)(0x69920A9C)
@@ -122,7 +122,7 @@ I (C:\Keil\Core\ARM\ARMCLANG\include\stdint.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdbool.h)(0x5ED619F4)
 I (..\include\stm32f1xx_interrupt.h)(0x6993FC69)
 I (..\include\stm32f1xx_rcc.h)(0x698E89C6)
-I (..\include\stm32f1xx_gpio.h)(0x699193D6)
+I (..\include\stm32f1xx_gpio.h)(0x69942D47)
 I (..\include\stm32f1xx_usart.h)(0x698E89BB)
 I (..\include\stm32f1xx_tim.h)(0x6991C9AA)
 I (..\include\stm32f1xx_systick.h)(0x69920A9C)
@@ -130,7 +130,7 @@ I (..\include\stm32f1xx_dwt.h)(0x698E89AD)
 I (..\include\stm32f1xx_afio.h)(0x6991A82A)
 F (..\include\stm32f1xx_afio.h)(0x6991A82A)()
 F (..\include\stm32f1xx_dwt.h)(0x698E89AD)()
-F (..\include\stm32f1xx_gpio.h)(0x699193D6)()
+F (..\include\stm32f1xx_gpio.h)(0x69942D47)()
 F (..\include\stm32f1xx_rcc.h)(0x698E89C6)()
 F (..\include\stm32f1xx_system.h)(0x69929FB3)()
 F (..\include\stm32f1xx_systick.h)(0x69920A9C)()
@@ -146,7 +146,7 @@ I (C:\Keil\Core\ARM\ARMCLANG\include\stdint.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdbool.h)(0x5ED619F4)
 I (..\include\stm32f1xx_interrupt.h)(0x6993FC69)
 I (..\include\stm32f1xx_rcc.h)(0x698E89C6)
-I (..\include\stm32f1xx_gpio.h)(0x699193D6)
+I (..\include\stm32f1xx_gpio.h)(0x69942D47)
 I (..\include\stm32f1xx_usart.h)(0x698E89BB)
 I (..\include\stm32f1xx_tim.h)(0x6991C9AA)
 I (..\include\stm32f1xx_systick.h)(0x69920A9C)
@@ -154,22 +154,22 @@ I (..\include\stm32f1xx_dwt.h)(0x698E89AD)
 I (..\include\stm32f1xx_exti.h)(0x6991A88C)
 I (..\include\stm32f1xx_afio.h)(0x6991A82A)
 F (..\bsp\led.h)(0x6992262E)()
-F (..\kernel\os_kernel.c)(0x6994240A)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-3 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../bsp -I ../include -I ../kernel -I ../source-I./RTE/Device/STM32F103C8-I./RTE/_stm32f1xx-IC:/Keil/Arm/Packs/ARM/CMSIS/6.3.0/CMSIS/Core/Include-IC:/Keil/Arm/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="531" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DSTM32F10X_MD-o ./objects/os_kernel.o -MD)
-I (..\kernel\os_kernel.h)(0x69942330)
+F (..\kernel\os_kernel.c)(0x699437CF)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-3 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../bsp -I ../include -I ../kernel -I ../source-I./RTE/Device/STM32F103C8-I./RTE/_stm32f1xx-IC:/Keil/Arm/Packs/ARM/CMSIS/6.3.0/CMSIS/Core/Include-IC:/Keil/Arm/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-D__UVISION_VERSION="531" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DSTM32F10X_MD-o ./objects/os_kernel.o -MD)
+I (..\kernel\os_kernel.h)(0x699437E1)
 I (..\include\stm32f1xx_system.h)(0x69929FB3)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdio.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdint.h)(0x5ED619F4)
 I (C:\Keil\Core\ARM\ARMCLANG\include\stdbool.h)(0x5ED619F4)
 I (..\include\stm32f1xx_interrupt.h)(0x6993FC69)
 I (..\include\stm32f1xx_rcc.h)(0x698E89C6)
-I (..\include\stm32f1xx_gpio.h)(0x699193D6)
+I (..\include\stm32f1xx_gpio.h)(0x69942D47)
 I (..\include\stm32f1xx_usart.h)(0x698E89BB)
 I (..\include\stm32f1xx_tim.h)(0x6991C9AA)
 I (..\include\stm32f1xx_systick.h)(0x69920A9C)
 I (..\include\stm32f1xx_dwt.h)(0x698E89AD)
 I (..\include\stm32f1xx_exti.h)(0x6991A88C)
 I (..\include\stm32f1xx_afio.h)(0x6991A82A)
-F (..\kernel\os_kernel.h)(0x69942330)()
+F (..\kernel\os_kernel.h)(0x699437E1)()
 F (..\kernel\os_kernel.s)(0x699403E3)(--target=arm-arm-none-eabi -mcpu=cortex-m3 -masm=auto -c-gdwarf-3-I./RTE/Device/STM32F103C8-I./RTE/_stm32f1xx-IC:/Keil/Arm/Packs/ARM/CMSIS/6.3.0/CMSIS/Core/Include-IC:/Keil/Arm/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 531" -Wa,armasm,--pd,"_RTE_ SETA 1" -Wa,armasm,--pd,"STM32F10X_MD SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o ./objects/os_kernel_1.o)
 F (RTE\Device\STM32F103C8\RTE_Device.h)(0x69929F4E)()
 F (RTE\Device\STM32F103C8\startup_stm32f10x_md.s)(0x69929A9A)(--target=arm-arm-none-eabi -mcpu=cortex-m3 -masm=auto -c-gdwarf-3-I./RTE/Device/STM32F103C8-I./RTE/_stm32f1xx-IC:/Keil/Arm/Packs/ARM/CMSIS/6.3.0/CMSIS/Core/Include-IC:/Keil/Arm/Packs/Keil/STM32F1xx_DFP/2.4.1/Device/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 531" -Wa,armasm,--pd,"_RTE_ SETA 1" -Wa,armasm,--pd,"STM32F10X_MD SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o ./objects/startup_stm32f10x_md.o)
