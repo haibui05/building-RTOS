@@ -16,6 +16,8 @@ static uint32_t semaphore_0, semaphore_1, semaphore_2;
 char text0[] = "Task0 running\r\n";
 char text1[] = "Task1 running\r\n";
 char text2[] = "Task2 running\r\n";
+uint32_t value = 777;
+uint32_t receive_data = 0; 
  
 void task0(void);
 void task1(void);
@@ -32,9 +34,9 @@ int main(void)
 	led_init();
 
 	/*** semaphore ***/
-	rtos_semaphore_init(&semaphore_0, 1);
-	rtos_semaphore_init(&semaphore_1, 0);
-	rtos_semaphore_init(&semaphore_2, 0);
+	// rtos_semaphore_init(&semaphore_0, 1);
+	// rtos_semaphore_init(&semaphore_1, 0);
+	// rtos_semaphore_init(&semaphore_2, 0);
 	
 	/*** os kernel ***/
 	rtos_kernel_init();
@@ -65,9 +67,11 @@ __attribute__((noreturn)) void task0(void)
 	for (;;)
 	{
 		task0_runner++;
-		rtos_cooperative_semaphore_take(&semaphore_0);
-		usart1_send_string(text0);
-		rtos_semaphore_give(&semaphore_1);
+		rtos_mailbox_send(value);
+		// rtos_cooperative_semaphore_take(&semaphore_0);
+		// usart1_send_string(text0);
+		// rtos_semaphore_give(&semaphore_1);
+		// rtos_thread_sleep(200u);
 	}
 }
 
@@ -76,9 +80,10 @@ __attribute__((noreturn)) void task1(void)
 	for (;;)
 	{
 		task1_runner++;
-		rtos_cooperative_semaphore_take(&semaphore_1);
-		usart1_send_string(text1);
-		rtos_semaphore_give(&semaphore_2);
+		receive_data = rtos_mailbox_receive();
+		// rtos_cooperative_semaphore_take(&semaphore_1);
+		// usart1_send_string(text1);
+		// rtos_semaphore_give(&semaphore_2);
 	}
 }
 
@@ -87,9 +92,9 @@ __attribute__((noreturn)) void task2(void)
 	for (;;)
 	{
 		task2_runner++;
-		rtos_cooperative_semaphore_take(&semaphore_2);
-		usart1_send_string(text2);
-		rtos_semaphore_give(&semaphore_0);
+		// rtos_cooperative_semaphore_take(&semaphore_2);
+		// usart1_send_string(text2);
+		// rtos_semaphore_give(&semaphore_0);
 	}
 }
 

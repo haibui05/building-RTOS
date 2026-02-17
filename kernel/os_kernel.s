@@ -1,7 +1,7 @@
 				AREA |.text|,CODE,READONLY,ALIGN=2
 				THUMB
 				EXTERN currentPointer			
-                EXTERN rtos_periodic_scheduler_round_robin				
+                EXTERN rtos_periodic_scheduler_round_robin_with_sleep				
                 EXPORT PendSV_Handler
                 EXPORT rtos_kernel_scheduler_launch
 
@@ -12,7 +12,7 @@ PendSV_Handler
 			    LDR R1, [R0]
 			    STR SP, [R1]
 			    PUSH {R0, LR}
-			    BL rtos_periodic_scheduler_round_robin
+			    BL rtos_periodic_scheduler_round_robin_with_sleep
 			    POP {R0, LR}
 			    LDR R1, [R0]
 			    LDR SP, [R1]

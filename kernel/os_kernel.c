@@ -85,6 +85,10 @@ void rtos_kernel_stack_add_threads( void (*task0)(void), void (*task1)(void), vo
   TCB_Stack[2][STACK_SIZE - 2] = (uint32_t)(task2);
   /* Start from thread 0 */
   currentPointer = &TCBs[0];
+	/* Sleep Time */
+	for (uint32_t i = 0; i < NUMBER_THREADS; i++) {
+		TCBs[i].sleepTime= 0;
+	}
   /* Enable global interrupt */
   __enable_irq();
 }
@@ -226,12 +230,29 @@ void periodic_event_execute(void)
 			TaskPeriodic[i].time_remaning--;
 		}
 	}
+	
+	for (uint32_t i = 0; i < NUMBER_THREADS; i++)\
+	{
+		if (TCBs[i].sleepTime > 0)
+		{
+			TCBs[i].sleepTime--;
+		}
+	}
 }
 
 void rtos_periodic_scheduler_round_robin(void)
 {
  currentPointer = currentPointer->nextStackPointer;
 }
+
+void rtos_periodic_scheduler_round_robin_with_sleep(void)
+{
+ currentPointer = currentPointer->nextStackPointer;
+ while (currentPointer->sleepTime > 0) {
+	currentPointer = currentPointer->nextStackPointer;
+ }
+}
+
 
 void (*periodic_threads)(void);
 
@@ -261,6 +282,55 @@ void TIM2_IRQHandler(void)
 	(*periodic_threads)();
 }
 
+/*************************************************************************
+ * Implement thread sleep
+*************************************************************************/
+void rtos_thread_sleep(uint32_t sleep_time)
+{
+	__disable_irq();
+	currentPointer->sleepTime = sleep_time;
+	__enable_irq();
+	osYield();
+}
+
+/*************************************************************************
+ * Mailbox
+*************************************************************************/
+static uint8_t mailbox_data_available;
+static uint32_t mailbox_data;
+static uint32_t mailbox_semaphore;
+
+void rtos_mailbox_init(void)
+{
+	mailbox_data_available = 0;
+	mailbox_data = 0;
+	rtos_semaphore_init(&mailbox_semaphore, 0);
+}
+
+void rtos_mailbox_send(uint32_t data)
+{
+	__disable_irq();
+	if (mailbox_data_available)
+	{
+		__enable_irq();
+		return;
+	}
+	mailbox_data = data;
+	mailbox_data_available = 1;
+	__enable_irq();
+	rtos_semaphore_give(&mailbox_semaphore);
+}
+
+uint32_t rtos_mailbox_receive(void)
+{
+	rtos_cooperative_semaphore_take(&mailbox_semaphore);
+	uint32_t data;
+	__disable_irq();
+	data = mailbox_data;
+	mailbox_data_available = 0;
+	__enable_irq();
+	return data;
+}
 
 /*************************************************************************
  * Implement RTOS kernel API

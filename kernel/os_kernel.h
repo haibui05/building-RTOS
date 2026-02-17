@@ -17,6 +17,7 @@ struct TCB
 {
 	uint32_t *stackPointer;
 	struct TCB *nextStackPointer;
+	uint32_t sleepTime;
 };
 
 typedef struct TCB TCB_t;
@@ -66,6 +67,15 @@ extern void periodic_event_execute(void);
 extern void rtos_periodic_task_init(void (*task)(), uint32_t freq, uint8_t priority);
 
 extern void rtos_periodic_scheduler_round_robin(void);
+
+/* ------------------------------------------------------ */
+extern void rtos_periodic_scheduler_round_robin_with_sleep(void);
+extern void rtos_thread_sleep(uint32_t sleep_time);
+\
+/* ------------------------------------------------------ */
+extern void rtos_mailbox_init(void);
+extern void rtos_mailbox_send(uint32_t data);
+extern uint32_t rtos_mailbox_receive(void);
 
 void osKernelInit(void);
 void osYield(void);
