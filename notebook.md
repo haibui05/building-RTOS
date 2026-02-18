@@ -382,5 +382,3 @@ Cách làm này có lợi ích lớn:
 2. SP bắt đầu tại STACK_SIZE - 16 vì cần chừa chỗ cho toàn bộ frame.
 3. PC register khác PC stack khi đang ở handler là chuyện bình thường.
 4. PendSV ưu tiên thấp nhất, chuyên dùng để đổi task.
-
-Nếu nắm chắc 4 ý trên, bạn đã hiểu phần lõi của context switch trong ARM Cortex-M RTOS.
